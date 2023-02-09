@@ -6,17 +6,21 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { initializeKeycloak } from './init/keycloak-init.factory';
 import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
+import { LayoutComponent } from './layout/layout.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LayoutComponent
   ],
   imports: [
 
     BrowserModule,
     AppRoutingModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
