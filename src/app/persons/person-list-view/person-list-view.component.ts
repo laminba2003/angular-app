@@ -9,15 +9,15 @@ import { Person } from './../../model/person';
 })
 export class PersonListViewComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'firstName'];
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country'];
   persons: Person[] = [];
 
-  constructor(private personService : PersonService) { }
+  constructor(private personService: PersonService) { }
 
   ngOnInit(): void {
     this.personService.getPersons().subscribe((response) => {
-        this.persons = response.content;
-        console.log(this.persons);
+      this.persons = response.content;
+      console.log(this.persons);
     });
   }
 

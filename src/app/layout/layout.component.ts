@@ -24,4 +24,8 @@ export class LayoutComponent implements OnInit {
     });
   }
 
+  get userName(): string {
+    return this.keycloakService.getUsername();
+  }
+
 }
