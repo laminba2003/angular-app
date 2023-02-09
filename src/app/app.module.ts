@@ -8,6 +8,7 @@ import { initializeKeycloak } from './init/keycloak-init.factory';
 import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
 import { LayoutComponent } from './layout/layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,11 +17,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LayoutComponent
   ],
   imports: [
-
     BrowserModule,
     AppRoutingModule,
     KeycloakAngularModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [
     {

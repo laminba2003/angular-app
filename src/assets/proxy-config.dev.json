@@ -1,0 +1,9 @@
+{
+    "/apis/*": {
+        "target": "http://localhost:9093",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {"^/apis" : "http://localhost:9093"}
+     }
+}

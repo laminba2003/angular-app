@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PersonService } from './../person-service';
+import { Person } from './../../model/person';
 
 @Component({
   selector: 'app-person-list-view',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonListViewComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns: string[] = ['id', 'firstName'];
+  persons: Person[] = [];
+
+  constructor(private personService : PersonService) { }
 
   ngOnInit(): void {
+    this.personService.getPersons().subscribe((response) => {
+        this.persons = response.content;
+        console.log(this.persons);
+    });
   }
 
 }

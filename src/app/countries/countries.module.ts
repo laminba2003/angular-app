@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CountriesRoutingModule } from './countries-routing.module';
 import { CountryListViewComponent } from './country-list-view/country-list-view.component';
+import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { CountryListViewComponent } from './country-list-view/country-list-view.
   ],
   imports: [
     CommonModule,
-    CountriesRoutingModule
+    CountriesRoutingModule,
+    ComponentsModule
   ]
 })
 export class CountriesModule { }
