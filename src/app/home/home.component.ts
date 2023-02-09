@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  visible: boolean = false;
 
-  ngOnInit(): void {
+  constructor(
+    public router: Router,
+    public keycloakService: KeycloakService
+  ) { }
+
+
+  async ngOnInit() {
+    await this.checkLoggedIn();
+  }
+
+  async checkLoggedIn() {
+    this.keycloakService.isLoggedIn().then((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.router.navigate(['countries']);
+      } else {
+        this.visible = true;
+      }
+    })
+  }
+
+  async signIn() {
+    await this.keycloakService.login({
+      redirectUri: window.location.origin
+    });
   }
 
 }

@@ -1,4 +1,4 @@
-<div class="gradient leading-relaxed tracking-wide flex flex-col">
+<div class="gradient leading-relaxed tracking-wide flex flex-col" [style.visibility]="visible ? 'visible' :'hidden'">
     <!--Nav-->
     <nav id="header" class="w-full z-30 top-0 text-white py-1 lg:py-6">
         <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-2 lg:py-6">
@@ -25,7 +25,7 @@
                 The web development framework for building the future!
             </p>
 
-            <button
+            <button (click)="signIn()"
                 class="mx-auto lg:mx-0 hover:underline text-gray-800 font-extrabold rounded my-2 md:my-6 py-4 px-8 shadow-lg w-48">
                 Sign In
             </button>
