@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -13,12 +14,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CommonModule,
     MatTableModule,
     MatDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   exports:[
     HeaderComponent,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class ComponentsModule { }

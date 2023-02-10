@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { Page } from 'src/app/model/page';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-person-list-view',
@@ -14,8 +16,10 @@ import { MatPaginator } from '@angular/material/paginator';
 export class PersonListViewComponent implements AfterViewInit {
 
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country', 'actions'];
-  page: Page<Person> = {content : [], totalElements : 0, current : 0, size : 5};
+  page: Page<Person> = { content: [], totalElements: 0, current: 0, size: 5 };
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) table: MatTable<Person>;
   isLoading: boolean = true;
 
 
@@ -29,15 +33,8 @@ export class PersonListViewComponent implements AfterViewInit {
     this.isLoading = true;
     this.personService.getPersons(this.page.current, this.page.size).subscribe((response) => {
       this.page = response;
-      console.log(this.page);
       this.isLoading = false;
     });
-  }
-
-  handlePage(event: any) {
-    this.page.current = event.pageIndex;
-    this.page.size = event.pageSize;
-    this.getPersons();
   }
 
   showPerson(id: bigint): void {
@@ -50,12 +47,26 @@ export class PersonListViewComponent implements AfterViewInit {
 
   editPerson(id: bigint, e: Event): void {
     e.stopPropagation();
-    console.log(id);
   }
 
   deletePerson(id: bigint, e: Event): void {
     e.stopPropagation();
-    console.log(id);
+  }
+
+  handlePagination(event: any) {
+    this.page.current = event.pageIndex;
+    this.page.size = event.pageSize;
+    this.getPersons();
+  }
+
+  handleSort(sortState: Sort): void {
+    let property = sortState.active as keyof Person;
+    if (sortState.direction == "asc") {
+      this.page.content.sort((a, b) => (a[property] < b[property] ? -1 : 1));
+    } else {
+      this.page.content.sort((a, b) => (a[property] > b[property] ? -1 : 1));
+    }
+    this.table.renderRows();
   }
 
 }
