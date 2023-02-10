@@ -4,22 +4,22 @@
     <table mat-table [dataSource]="persons" class="w-full">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> No. </th>
-            <td mat-cell *matCellDef="let person" class="text-sm"> {{person.id}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.id}} </td>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="firstName">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> First Name </th>
-            <td mat-cell *matCellDef="let person" class="text-sm"> {{person.firstName}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.firstName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="lastName">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> Last Name </th>
-            <td mat-cell *matCellDef="let person" class="text-sm"> {{person.lastName}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.lastName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="country">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> Country </th>
-            <td mat-cell *matCellDef="let person" class="text-sm"> {{person.country.name}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.country.name}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

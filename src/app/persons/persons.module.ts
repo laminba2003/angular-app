@@ -6,16 +6,21 @@ import { PersonListViewComponent } from './person-list-view/person-list-view.com
 import { ComponentsModule } from '../components/components.module';
 
 import {MatTableModule} from '@angular/material/table';
+import { PersonDetailsComponent } from './person-details/person-details.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
-    PersonListViewComponent
+    PersonListViewComponent,
+    PersonDetailsComponent,
   ],
   imports: [
     CommonModule,
     PersonsRoutingModule,
     ComponentsModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule
   ]
 })
 export class PersonsModule { }
