@@ -57,5 +57,5 @@
     </table>
 </div>
 <div class="w-full">
-    <mat-paginator [length]="page.totalElements" [showFirstLastButtons]="true" [pageSize]="page.size" (page)="handlePage($event)" aria-label="Select page of GitHub search results"></mat-paginator>
+    <mat-paginator [length]="page.totalElements" [pageSizeOptions] = "[5, 10, 25]" [showFirstLastButtons]="true" [pageSize]="page.size" (page)="handlePage($event)" aria-label="Select page of GitHub search results"></mat-paginator>
 </div>

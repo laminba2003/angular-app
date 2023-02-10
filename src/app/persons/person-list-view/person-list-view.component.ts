@@ -36,6 +36,7 @@ export class PersonListViewComponent implements AfterViewInit {
 
   handlePage(event: any) {
     this.page.current = event.pageIndex;
+    this.page.size = event.pageSize;
     this.getPersons();
   }
 
