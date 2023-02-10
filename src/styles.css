@@ -16,3 +16,12 @@ button:focus {
 .mat-row:nth-child(odd){
     background-color: white;
 }
+
+.mat-header-cell {
+    background: #79adc5;
+    color: white;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #79adc5;
+}
