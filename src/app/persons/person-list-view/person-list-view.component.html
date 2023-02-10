@@ -1,28 +1,61 @@
 <app-header title="Persons"></app-header>
 
+<div class="example-container mat-elevation-z8">
+    <div class="example-loading-shade" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
 <div class="flex flex-nowrap">
-    <table mat-table [dataSource]="persons" class="w-full">
+    <table mat-table [dataSource]="page.content" class="w-full">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> No. </th>
-            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.id}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showPerson(person.id)">
+                {{person.id}} </td>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="firstName">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> First Name </th>
-            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.firstName}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showPerson(person.id)">
+                {{person.firstName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="lastName">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> Last Name </th>
-            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.lastName}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showPerson(person.id)">
+                {{person.lastName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="country">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> Country </th>
-            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showDetails(person.id)"> {{person.country.name}} </td>
+            <td mat-cell *matCellDef="let person" class="text-sm cursor-pointer" (click)="showPerson(person.id)">
+                {{person.country.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="text-sm"> </th>
+            <td mat-cell *matCellDef="let person" class="text-sm  cursor-pointer" (click)="showPerson(person.id)">
+
+                <div class="float-right" onclick="return false;">
+                    <button (click)="editPerson(person.id, $event);"
+                        class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        type="button">
+                        <i class="fas fa-edit"></i>
+                    </button>
+
+                    <button (click)="deletePerson(person.id, $event)"
+                        class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        type="button">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+
+            </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+</div>
+<div class="w-full">
+    <mat-paginator [length]="page.totalElements" [pageSize]="page.size" (page)="handlePage($event)" aria-label="Select page of GitHub search results"></mat-paginator>
 </div>

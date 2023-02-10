@@ -1,37 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { PersonService } from './../person-service';
 import { Person } from './../../model/person';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
+import { Page } from 'src/app/model/page';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-person-list-view',
   templateUrl: './person-list-view.component.html',
   styleUrls: ['./person-list-view.component.css']
 })
-export class PersonListViewComponent implements OnInit {
+export class PersonListViewComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country'];
-  persons: Person[] = [];
-  
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country', 'actions'];
+  page: Page<Person> = {content : [], totalElements : 0, current : 0, size : 5};
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  isLoading: boolean = true;
+
 
   constructor(private personService: PersonService, public dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    this.personService.getPersons().subscribe((response) => {
-      this.persons = response.content;
-      console.log(this.persons);
+  ngAfterViewInit(): void {
+    this.getPersons();
+  }
+
+  getPersons() {
+    this.isLoading = true;
+    this.personService.getPersons(this.page.current, this.page.size).subscribe((response) => {
+      this.page = response;
+      console.log(this.page);
+      this.isLoading = false;
     });
   }
 
-  showDetails(id : String) {
+  handlePage(event: any) {
+    this.page.current = event.pageIndex;
+    this.getPersons();
+  }
+
+  showPerson(id: bigint): void {
+    this.personService.getPerson(id).subscribe((person) => {
+      this.dialog.open(PersonDetailsComponent, {
+        data: person
+      });
+    });
+  }
+
+  editPerson(id: bigint, e: Event): void {
+    e.stopPropagation();
     console.log(id);
-    const dialogRef = this.dialog.open(PersonDetailsComponent, {
-      data: {name : "lamine"}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+  }
+
+  deletePerson(id: bigint, e: Event): void {
+    e.stopPropagation();
+    console.log(id);
   }
 
 }

@@ -10,7 +10,7 @@ import { PersonListViewComponent } from './../person-list-view/person-list-view.
 })
 export class PersonDetailsComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<PersonListViewComponent>, @Inject(MAT_DIALOG_DATA) data : Person) {}
+  constructor(private dialogRef: MatDialogRef<PersonListViewComponent>, @Inject(MAT_DIALOG_DATA) public data : Person) {}
 
   ngOnInit(): void {
   }

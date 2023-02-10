@@ -9,12 +9,16 @@ import { Page } from './../model/page';
 })
 export class PersonService {
 
-  private readonly backendUrl = '/apis/persons'
+  private readonly backendUrl = '/apis/persons';
 
   constructor(private httpClient: HttpClient) { }
 
-  getPersons(): Observable<Page<Person>> {
-    return this.httpClient.get<Page<Person>>(this.backendUrl);
+  getPersons(page: number, size: number = 5): Observable<Page<Person>> {
+    return this.httpClient.get<Page<Person>>(this.backendUrl + "?page=" + page + "&size=" + size);
+  }
+
+  getPerson(id: bigint): Observable<Person> {
+    return this.httpClient.get<Person>(this.backendUrl + "/" + id);
   }
 
 }

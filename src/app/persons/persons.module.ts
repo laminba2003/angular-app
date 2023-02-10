@@ -4,23 +4,21 @@ import { CommonModule } from '@angular/common';
 import { PersonsRoutingModule } from './persons-routing.module';
 import { PersonListViewComponent } from './person-list-view/person-list-view.component';
 import { ComponentsModule } from '../components/components.module';
-
-import {MatTableModule} from '@angular/material/table';
 import { PersonDetailsComponent } from './person-details/person-details.component';
-import { MatDialogModule } from '@angular/material/dialog';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';  
 
 @NgModule({
   declarations: [
     PersonListViewComponent,
-    PersonDetailsComponent,
+    PersonDetailsComponent
   ],
   imports: [
-    CommonModule,
+  CommonModule,
     PersonsRoutingModule,
     ComponentsModule,
-    MatTableModule,
-    MatDialogModule
+    MatPaginatorModule, 
+    MatProgressSpinnerModule
   ]
 })
 export class PersonsModule { }
