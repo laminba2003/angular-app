@@ -8,3 +8,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 button:focus {
     outline: NONE;
 }
+
+.mat-row:nth-child(even){
+    background-color: #fdfdfd;
+}
+        
+.mat-row:nth-child(odd){
+    background-color: white;
+}
