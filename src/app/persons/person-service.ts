@@ -17,7 +17,7 @@ export class PersonService {
     return this.httpClient.get<Page<Person>>(this.backendUrl + "?page=" + page + "&size=" + size);
   }
 
-  getPerson(id: bigint): Observable<Person> {
+  getPerson(id: number): Observable<Person> {
     return this.httpClient.get<Person>(this.backendUrl + "/" + id);
   }
 

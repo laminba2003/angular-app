@@ -7,6 +7,8 @@ import { ComponentsModule } from '../components/components.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';  
+import { NgxsModule } from '@ngxs/store';
+import { PersonState } from './person.state';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     PersonsRoutingModule,
     ComponentsModule,
     MatPaginatorModule, 
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgxsModule.forFeature([PersonState])
   ]
 })
 export class PersonsModule { }

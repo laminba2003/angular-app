@@ -1,5 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import { PersonService } from './../person-service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Person } from './../../model/person';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
@@ -7,42 +6,49 @@ import { Page } from 'src/app/model/page';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { Select, Store } from '@ngxs/store';
+import { Observable, withLatestFrom } from 'rxjs';
+import { PersonState } from '../person.state';
+import { GetPerson, GetPersons } from './../person.actions';
 
 @Component({
   selector: 'app-person-list-view',
   templateUrl: './person-list-view.component.html',
   styleUrls: ['./person-list-view.component.css']
 })
-export class PersonListViewComponent implements AfterViewInit {
+export class PersonListViewComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country', 'actions'];
-  page: Page<Person> = { content: [], totalElements: 0, current: 0, size: 5 };
+  page: Page<Person> = { content: [], totalElements: 0, number: 0, size: 5 };
+  @Select(PersonState.selectStatePersonsData) pageInfo$: Observable<Page<Person>>;
+  @Select(PersonState.selectStatePersonData) personInfo$: Observable<Person>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<Person>;
   isLoading: boolean = true;
 
+  constructor(private store: Store, public dialog: MatDialog) { }
 
-  constructor(private personService: PersonService, public dialog: MatDialog) { }
-
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.getPersons();
   }
 
   getPersons() {
     this.isLoading = true;
-    this.personService.getPersons(this.page.current, this.page.size).subscribe((response) => {
-      this.page = response;
-      this.isLoading = false;
-    });
+    this.store.dispatch(new GetPersons(this.page.number, this.page.size))
+      .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+        this.page = page;
+        this.isLoading = false;
+      });
   }
 
-  showPerson(id: bigint): void {
-    this.personService.getPerson(id).subscribe((person) => {
-      this.dialog.open(PersonDetailsComponent, {
-        data: person
+  showPerson(id: number): void {
+    this.store.dispatch(new GetPerson(id))
+      .pipe(withLatestFrom(this.personInfo$)).subscribe(([_, person]) => {
+        this.dialog.open(PersonDetailsComponent, {
+          data: person
+        });
       });
-    });
   }
 
   editPerson(id: bigint, e: Event): void {
@@ -54,7 +60,7 @@ export class PersonListViewComponent implements AfterViewInit {
   }
 
   handlePagination(event: any) {
-    this.page.current = event.pageIndex;
+    this.page.number = event.pageIndex;
     this.page.size = event.pageSize;
     this.getPersons();
   }

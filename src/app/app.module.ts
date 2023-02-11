@@ -10,6 +10,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './request.interceptor';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RequestInterceptor } from './request.interceptor';
     AppRoutingModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxsModule.forRoot([])
   ],
   providers: [
     {
