@@ -8,7 +8,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
-import { DeletePerson, GetPerson, GetPersons } from './../person.actions';
+import { DeletePerson, GetPersons } from './../person.actions';
 import { ConfirmDialogComponent } from './../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -21,7 +21,6 @@ export class PersonListViewComponent implements OnInit {
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country', 'actions'];
   page: Page<Person> = { content: [], totalElements: 0, number: 0, size: 5 };
   pageInfo$: Observable<Page<Person>>;
-  personInfo$: Observable<Person>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<Person>;
@@ -29,7 +28,6 @@ export class PersonListViewComponent implements OnInit {
 
   constructor(private store: Store, public dialog: MatDialog) { 
     this.pageInfo$ = this.store.select(state => state.personstate.page);
-    this.personInfo$ = this.store.select(state => state.personstate.person);
   }
 
   ngOnInit(): void {
@@ -44,12 +42,9 @@ export class PersonListViewComponent implements OnInit {
   }
 
   showPerson(id: number): void {
-    this.store.dispatch(new GetPerson(id))
-      .pipe(withLatestFrom(this.personInfo$)).subscribe(([_, person]) => {
-        this.dialog.open(PersonDetailsComponent, {
-          data: person
-        });
-      });
+    this.dialog.open(PersonDetailsComponent, {
+      data: id
+    });
   }
 
   editPerson(id: number, e: Event): void {

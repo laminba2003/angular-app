@@ -4,7 +4,6 @@
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug",
-        "pathRewrite": {"^/apis" : "http://localhost:9093"},
-        "timeout": 100000
+        "pathRewrite": {"^/apis" : "http://localhost:9093"}
      }
 }
