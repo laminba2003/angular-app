@@ -8,6 +8,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   exports:[
     HeaderComponent,
@@ -30,7 +34,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatTableModule,
     MatDialogModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatToolbarModule,
+    MatIconModule
   ]
 })
 export class ComponentsModule { }

@@ -1,8 +1,8 @@
-.example-container {
+.spinner-container {
     position: relative;
   }
   
-.example-loading-shade {
+.spinner-loading-shade {
     position: absolute;
     top: 0;
     left: 0;
