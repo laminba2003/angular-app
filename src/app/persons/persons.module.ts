@@ -6,7 +6,6 @@ import { PersonListViewComponent } from './person-list-view/person-list-view.com
 import { ComponentsModule } from '../components/components.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';  
 import { NgxsModule } from '@ngxs/store';
 import { PersonState } from './person.state';
 
@@ -16,11 +15,10 @@ import { PersonState } from './person.state';
     PersonDetailsComponent
   ],
   imports: [
-  CommonModule,
+    CommonModule,
     PersonsRoutingModule,
     ComponentsModule,
-    MatPaginatorModule, 
-    MatProgressSpinnerModule,
+    MatPaginatorModule,
     NgxsModule.forFeature([PersonState])
   ]
 })

@@ -1,9 +1,5 @@
 <app-header title="Persons"></app-header>
-
-<div class="example-container mat-elevation-z8">
-    <div class="example-loading-shade" *ngIf="isLoading">
-      <mat-spinner diameter="50"></mat-spinner>
-    </div>
+<app-spinner></app-spinner>
 
 <div class="flex flex-nowrap">
     <table mat-table [dataSource]="page.content" matSort (matSortChange)="handleSort($event)" class="w-full">

@@ -3,18 +3,26 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpResponse
 } from '@angular/common/http';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { FetchRequest } from './app.state';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor(private store : Store, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(
+    this.store.dispatch(new FetchRequest(true))
+    return next.handle(request).pipe(tap((response) => {
+        if(response instanceof HttpResponse) {
+          this.store.dispatch(new FetchRequest(false));
+        }
+    }),
       catchError((requestError) => {
         if (requestError.status == 401) {
           this.router.navigate(['']);

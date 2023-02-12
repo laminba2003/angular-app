@@ -6,22 +6,27 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
     MatTableModule,
     MatDialogModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressSpinnerModule
   ],
   exports:[
     HeaderComponent,
     ConfirmDialogComponent,
+    SpinnerComponent,
     MatTableModule,
     MatDialogModule,
     MatPaginatorModule,

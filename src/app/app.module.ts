@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './request.interceptor';
 import { NgxsModule } from '@ngxs/store';
+import { AppState } from './app.state';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { NgxsModule } from '@ngxs/store';
     KeycloakAngularModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NgxsModule.forRoot([])
+    NgxsModule.forRoot([AppState])
   ],
   providers: [
     {

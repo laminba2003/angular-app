@@ -26,7 +26,7 @@ export class PersonListViewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<Person>;
-  isLoading: boolean = true;
+
 
   constructor(private store: Store, public dialog: MatDialog) { }
 
@@ -35,22 +35,18 @@ export class PersonListViewComponent implements OnInit {
   }
 
   getPersons() {
-    this.isLoading = true;
     this.store.dispatch(new GetPersons(this.page.number, this.page.size))
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.page = page;
-        this.isLoading = false;
       });
   }
 
   showPerson(id: number): void {
-    this.isLoading = true;
     this.store.dispatch(new GetPerson(id))
       .pipe(withLatestFrom(this.personInfo$)).subscribe(([_, person]) => {
         this.dialog.open(PersonDetailsComponent, {
           data: person
         });
-        this.isLoading = false;
       });
   }
 
@@ -62,10 +58,11 @@ export class PersonListViewComponent implements OnInit {
     e.stopPropagation();
     this.dialog.open(ConfirmDialogComponent, {
       data: () => {
-        this.isLoading = true;
-        this.store.dispatch(new DeletePerson(id)).subscribe(() => {
-            this.isLoading = false;
-          });
+        this.store.dispatch(new DeletePerson(id)).pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+          if(page.totalElements == page.size && page.content.length < page.size) {
+              this.getPersons();
+          }
+        });
       },
       disableClose: true
     });
