@@ -1,7 +1,7 @@
 import { Country } from './country';
 
 export class Person {
-    id: bigint;
+    id: number;
     firstName: string;
     lastName: string;
     country: Country;

@@ -5,10 +5,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
@@ -19,6 +21,7 @@ import { MatSortModule } from '@angular/material/sort';
   ],
   exports:[
     HeaderComponent,
+    ConfirmDialogComponent,
     MatTableModule,
     MatDialogModule,
     MatPaginatorModule,

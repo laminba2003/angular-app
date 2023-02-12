@@ -21,4 +21,8 @@ export class PersonService {
     return this.httpClient.get<Person>(this.backendUrl + "/" + id);
   }
 
+  deletePerson(id: number): Observable<any> {
+    return this.httpClient.delete(this.backendUrl + "/" + id);
+  }
+
 }

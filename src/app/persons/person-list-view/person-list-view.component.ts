@@ -9,7 +9,8 @@ import { MatTable } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
 import { PersonState } from '../person.state';
-import { GetPerson, GetPersons } from './../person.actions';
+import { DeletePerson, GetPerson, GetPersons } from './../person.actions';
+import { ConfirmDialogComponent } from './../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-person-list-view',
@@ -43,20 +44,31 @@ export class PersonListViewComponent implements OnInit {
   }
 
   showPerson(id: number): void {
+    this.isLoading = true;
     this.store.dispatch(new GetPerson(id))
       .pipe(withLatestFrom(this.personInfo$)).subscribe(([_, person]) => {
         this.dialog.open(PersonDetailsComponent, {
           data: person
         });
+        this.isLoading = false;
       });
   }
 
-  editPerson(id: bigint, e: Event): void {
+  editPerson(id: number, e: Event): void {
     e.stopPropagation();
   }
 
-  deletePerson(id: bigint, e: Event): void {
+  deletePerson(id: number, e: Event): void {
     e.stopPropagation();
+    this.dialog.open(ConfirmDialogComponent, {
+      data: () => {
+        this.isLoading = true;
+        this.store.dispatch(new DeletePerson(id)).subscribe(() => {
+            this.isLoading = false;
+          });
+      },
+      disableClose: true
+    });
   }
 
   handlePagination(event: any) {

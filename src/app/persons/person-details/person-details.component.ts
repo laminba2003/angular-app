@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Person } from './../../model/person';
-import { PersonListViewComponent } from './../person-list-view/person-list-view.component';
 
 @Component({
   selector: 'app-person-details',
@@ -10,13 +9,10 @@ import { PersonListViewComponent } from './../person-list-view/person-list-view.
 })
 export class PersonDetailsComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<PersonListViewComponent>, @Inject(MAT_DIALOG_DATA) public data : Person) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data : Person) {}
 
   ngOnInit(): void {
   }
 
-  close(): void {
-    this.dialogRef.close();
-  }
 
 }

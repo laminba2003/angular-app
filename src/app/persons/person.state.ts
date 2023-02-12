@@ -4,7 +4,7 @@ import { tap } from "rxjs";
 import { Page } from "../model/page";
 import { Person } from "../model/person";
 import { PersonService } from './person-service';
-import { GetPerson, GetPersons } from './person.actions';
+import { DeletePerson, GetPerson, GetPersons } from './person.actions';
 
 export class PersonStateModel {
     page: Page<Person>;
@@ -48,6 +48,19 @@ export class PersonState {
             ctx.setState({
                 ...state,
                 person: person
+            })
+        }))
+    }
+
+    @Action(DeletePerson)
+    deletePerson(ctx: StateContext<PersonStateModel>, { id }: DeletePerson) {
+        return this.personService.deletePerson(id).pipe(tap(() => {
+            const state=ctx.getState();
+            state.page.content = state.page.content.filter(person => person.id!==id);
+            state.page.totalElements--;
+            ctx.setState({
+                ...state,
+                page: state.page
             })
         }))
     }
