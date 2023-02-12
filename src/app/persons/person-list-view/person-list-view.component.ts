@@ -6,9 +6,8 @@ import { Page } from 'src/app/model/page';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
-import { PersonState } from '../person.state';
 import { DeletePerson, GetPerson, GetPersons } from './../person.actions';
 import { ConfirmDialogComponent } from './../../components/confirm-dialog/confirm-dialog.component';
 
@@ -21,14 +20,17 @@ export class PersonListViewComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country', 'actions'];
   page: Page<Person> = { content: [], totalElements: 0, number: 0, size: 5 };
-  @Select(PersonState.selectStatePersonsData) pageInfo$: Observable<Page<Person>>;
-  @Select(PersonState.selectStatePersonData) personInfo$: Observable<Person>;
+  pageInfo$: Observable<Page<Person>>;
+  personInfo$: Observable<Person>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<Person>;
 
 
-  constructor(private store: Store, public dialog: MatDialog) { }
+  constructor(private store: Store, public dialog: MatDialog) { 
+    this.pageInfo$ = this.store.select(state => state.personstate.page);
+    this.personInfo$ = this.store.select(state => state.personstate.person);
+  }
 
   ngOnInit(): void {
     this.getPersons();

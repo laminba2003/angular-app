@@ -26,7 +26,6 @@ export class AppState {
         ctx.patchState({
             isLoading: isLoading
         });
-        console.log(ctx.getState().isLoading);
     }
 
 }
