@@ -12,8 +12,8 @@ export class HomeComponent implements OnInit {
   visible: boolean = false;
 
   constructor(
-    public router: Router,
-    public keycloakService: KeycloakService
+    private router: Router,
+    private keycloakService: KeycloakService
   ) { }
 
 

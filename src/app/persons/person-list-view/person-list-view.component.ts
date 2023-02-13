@@ -10,6 +10,7 @@ import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
 import { DeletePerson, GetPersons } from './../person.actions';
 import { ConfirmDialogComponent } from './../../components/confirm-dialog/confirm-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-person-list-view',
@@ -26,12 +27,16 @@ export class PersonListViewComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Person>;
 
 
-  constructor(private store: Store, public dialog: MatDialog) { 
+  constructor(private route: ActivatedRoute, private store: Store, public dialog: MatDialog) {
     this.pageInfo$ = this.store.select(state => state.personstate.page);
   }
 
   ngOnInit(): void {
     this.getPersons();
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (id) {
+      this.showPerson(id);
+    }
   }
 
   getPersons() {
@@ -45,6 +50,7 @@ export class PersonListViewComponent implements OnInit {
     this.dialog.open(PersonDetailsComponent, {
       data: id
     });
+    window.history.replaceState({}, '', `/persons/${id}`);
   }
 
   editPerson(id: number, e: Event): void {
@@ -56,8 +62,8 @@ export class PersonListViewComponent implements OnInit {
     this.dialog.open(ConfirmDialogComponent, {
       data: () => {
         this.store.dispatch(new DeletePerson(id)).pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
-          if(page.totalElements == page.size && page.content.length < page.size) {
-              this.getPersons();
+          if (page.totalElements == page.size && page.content.length < page.size) {
+            this.getPersons();
           }
         });
       },
