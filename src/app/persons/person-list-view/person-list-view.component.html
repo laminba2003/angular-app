@@ -1,4 +1,14 @@
-<app-header title="Persons"></app-header>
+<app-header title="Persons" [template]="buttons"></app-header>
+
+<ng-template #buttons>
+    <button mat-icon-button class="header-icon">
+        <mat-icon>person_add</mat-icon>
+    </button>
+    <button mat-icon-button (click)="getPersons()" class="header-icon">
+        <mat-icon>refresh</mat-icon>
+    </button>
+</ng-template>
+
 <app-spinner></app-spinner>
 
 <div class="flex flex-nowrap">

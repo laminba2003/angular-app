@@ -1,10 +1,6 @@
-<mat-toolbar class="bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-xl text-white" >
-    <span>{{title}}</span>
-    <span class="header-spacer"></span>
-    <button mat-icon-button class="header-icon">
-      <mat-icon>person_add</mat-icon>
-    </button>
-    <button mat-icon-button class="header-icon">
-      <mat-icon>refresh</mat-icon>
-    </button>
-  </mat-toolbar>
+<mat-toolbar class="bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-xl text-white">
+  <span>{{title}}</span>
+  <span class="header-spacer"></span>
+  <ng-container *ngTemplateOutlet="template">
+  </ng-container>
+</mat-toolbar>
