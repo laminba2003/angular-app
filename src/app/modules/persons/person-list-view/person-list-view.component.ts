@@ -8,7 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
-import { DeletePerson, GetPersons } from './../person.actions';
+import { DeletePerson, GetPerson, GetPersons } from './../person.actions';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -25,12 +25,14 @@ export class PersonListViewComponent implements OnInit {
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country.name', 'actions'];
   page: Page<Person> = { content: [], totalElements: 0, number: 0, size: 5 };
   dataSource: MatTableDataSource<Person> = new MatTableDataSource(this.page.content);
+  personInfo$: Observable<Person>;
   pageInfo$: Observable<Page<Person>>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(public auth: AuthService, private route: ActivatedRoute, private store: Store, private dialog: MatDialog) {
     this.pageInfo$ = this.store.select(state => state.personstate.page);
+    this.personInfo$ = this.store.select(state => state.personstate.person);
     this.store.dispatch(new SetSearch(this.search.bind(this)));
   }
 
@@ -51,9 +53,12 @@ export class PersonListViewComponent implements OnInit {
   }
 
   getPerson(id: number): void {
-    this.dialog.open(PersonDetailsComponent, {
-      data: id
-    });
+    this.store.dispatch(new GetPerson(id))
+      .pipe(withLatestFrom(this.personInfo$)).subscribe(([_, person]) => {
+        this.dialog.open(PersonDetailsComponent, {
+          data: person
+        });
+      });
     window.history.replaceState({}, '', `/persons/${id}`);
   }
 
@@ -92,7 +97,7 @@ export class PersonListViewComponent implements OnInit {
   }
 
   search(input: string): void {
-    
+
   }
 
 }

@@ -9,6 +9,7 @@ import {
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { FetchRequest } from './app.state';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
