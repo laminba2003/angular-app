@@ -11,22 +11,28 @@ export class SetRoles {
     constructor(public roles : string[]) { }
 }
 
+export class SetSearch {
+    static readonly type = '[roles] setSearch';
+    constructor(public search : Function) { }
+}
+
+
 export class AppStateModel {
     isLoading: boolean;
-    roles: string[]
+    roles: string[];
+    search: Function
 }
 
 @State<AppStateModel>({
     name: 'appstate',
     defaults: {
         isLoading: false,
-        roles: []
+        roles: [],
+        search: function(){}
     }
 })
 @Injectable()
 export class AppState {
-
-    constructor() { }
 
     @Action(FetchRequest)
     setLoading(ctx: StateContext<AppStateModel>, {isLoading} : FetchRequest) {
@@ -41,5 +47,13 @@ export class AppState {
             roles: roles
         });
     }
+
+    @Action(SetSearch)
+    setSearch(ctx: StateContext<AppStateModel>, {search} : SetSearch) {
+        ctx.patchState({
+            search: search
+        });
+    }
+
 
 }

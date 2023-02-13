@@ -15,7 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
   declarations: [
     HeaderComponent,
     ConfirmDialogComponent,
-    SpinnerComponent
+    SpinnerComponent,
   ],
   imports: [
     CommonModule,

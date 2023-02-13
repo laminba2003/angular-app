@@ -12,6 +12,7 @@ import { DeletePerson, GetPersons } from './../person.actions';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { SetSearch } from 'src/app/app.state';
 
 
 @Component({
@@ -30,13 +31,14 @@ export class PersonListViewComponent implements OnInit {
 
   constructor(public auth: AuthService, private route: ActivatedRoute, private store: Store, private dialog: MatDialog) {
     this.pageInfo$ = this.store.select(state => state.personstate.page);
+    this.store.dispatch(new SetSearch(this.search.bind(this)));
   }
 
   ngOnInit(): void {
     this.getPersons();
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.showPerson(id);
+      this.getPerson(id);
     }
   }
 
@@ -48,7 +50,7 @@ export class PersonListViewComponent implements OnInit {
       });
   }
 
-  showPerson(id: number): void {
+  getPerson(id: number): void {
     this.dialog.open(PersonDetailsComponent, {
       data: id
     });
@@ -89,5 +91,8 @@ export class PersonListViewComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  search(input: string): void {
+    
+  }
 
 }

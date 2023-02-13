@@ -23,6 +23,7 @@ export class RequestInterceptor implements HttpInterceptor {
       }
     }),
       catchError((requestError) => {
+        this.store.dispatch(new FetchRequest(false));
         if (requestError.status == 401) {
           document.location.href = '';
           return of(requestError.message);

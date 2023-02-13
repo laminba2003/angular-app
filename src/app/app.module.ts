@@ -1,6 +1,5 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -18,16 +17,16 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
   declarations: [
     AppComponent,
     HomeComponent,
-    LayoutComponent
+    LayoutComponent,
   ],
   imports: [
-    BrowserModule,
+BrowserModule,
     AppRoutingModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
     HttpClientModule,
     NgxsModule.forRoot([AppState]),
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [
     {
