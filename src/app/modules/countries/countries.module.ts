@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CountriesRoutingModule } from './countries-routing.module';
 import { CountryListViewComponent } from './country-list-view/country-list-view.component';
-import { ComponentsModule } from '../components/components.module';
+import { ComponentsModule } from '../../components/components.module';
 
 
 @NgModule({

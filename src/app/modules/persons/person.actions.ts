@@ -1,4 +1,4 @@
-import { Person } from './../model/person';
+import { Person } from '../../model/person';
 
 export class GetPersons {
     static readonly type = '[Persons] Fetch';

@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
 import { GetPerson } from '../person.actions';
-import { Person } from './../../model/person';
+import { Person } from '../../../model/person';
 import { PersonListViewComponent } from './../person-list-view/person-list-view.component';
 
 @Component({

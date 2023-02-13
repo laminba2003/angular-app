@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Person } from './../../model/person';
+import { Person } from './../../../model/person';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { Page } from 'src/app/model/page';
@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
 import { DeletePerson, GetPersons } from './../person.actions';
-import { ConfirmDialogComponent } from './../../components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 
 
