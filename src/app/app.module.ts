@@ -12,7 +12,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './request.interceptor';
 import { NgxsModule } from '@ngxs/store';
 import { AppState } from './app.state';
-
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+  
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,9 +26,14 @@ import { AppState } from './app.state';
     KeycloakAngularModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NgxsModule.forRoot([AppState])
+    NgxsModule.forRoot([AppState]),
+    MatDialogModule
   ],
   providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
