@@ -4,13 +4,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { Page } from 'src/app/model/page';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
 import { DeletePerson, GetPersons } from './../person.actions';
 import { ConfirmDialogComponent } from './../../components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-person-list-view',
@@ -19,13 +20,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PersonListViewComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country', 'actions'];
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'country.name', 'actions'];
   page: Page<Person> = { content: [], totalElements: 0, number: 0, size: 5 };
+  dataSource: MatTableDataSource<Person> = new MatTableDataSource(this.page.content);
   pageInfo$: Observable<Page<Person>>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<Person>;
-
 
   constructor(private route: ActivatedRoute, private store: Store, public dialog: MatDialog) {
     this.pageInfo$ = this.store.select(state => state.personstate.page);
@@ -43,6 +43,7 @@ export class PersonListViewComponent implements OnInit {
     this.store.dispatch(new GetPersons(this.page.number, this.page.size))
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.page = page;
+        this.refreshDataSource();
       });
   }
 
@@ -64,6 +65,8 @@ export class PersonListViewComponent implements OnInit {
         this.store.dispatch(new DeletePerson(id)).pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
           if (page.totalElements == page.size && page.content.length < page.size) {
             this.getPersons();
+          } else {
+            this.refreshDataSource();
           }
         });
       },
@@ -77,14 +80,12 @@ export class PersonListViewComponent implements OnInit {
     this.getPersons();
   }
 
-  handleSort(sortState: Sort): void {
-    let property = sortState.active as keyof Person;
-    if (sortState.direction == "asc") {
-      this.page.content.sort((a, b) => (a[property] < b[property] ? -1 : 1));
-    } else {
-      this.page.content.sort((a, b) => (a[property] > b[property] ? -1 : 1));
-    }
-    this.table.renderRows();
+  refreshDataSource(): void {
+    this.dataSource = new MatTableDataSource(this.page.content);
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      return property == 'country.name' ? item.country.name : String(item[property as keyof Person]);
+    };
+    this.dataSource.sort = this.sort;
   }
 
 }
