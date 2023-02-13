@@ -11,6 +11,7 @@ import { Observable, withLatestFrom } from 'rxjs';
 import { DeletePerson, GetPersons } from './../person.actions';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class PersonListViewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private route: ActivatedRoute, private store: Store, public dialog: MatDialog) {
+  constructor(public auth: AuthService, private route: ActivatedRoute, private store: Store, private dialog: MatDialog) {
     this.pageInfo$ = this.store.select(state => state.personstate.page);
   }
 
@@ -87,5 +88,6 @@ export class PersonListViewComponent implements OnInit {
     };
     this.dataSource.sort = this.sort;
   }
+
 
 }

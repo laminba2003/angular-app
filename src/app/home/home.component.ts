@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { KeycloakService } from 'keycloak-angular';
+import { AuthService } from './../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private keycloakService: KeycloakService
+    public auth: AuthService
   ) { }
 
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   }
 
   async checkLoggedIn() {
-    this.keycloakService.isLoggedIn().then((isLoggedIn) => {
+    this.auth.isLoggedIn().then((isLoggedIn) => {
       if (isLoggedIn) {
         this.router.navigate(['countries']);
       } else {
@@ -31,10 +31,5 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  async signIn() {
-    await this.keycloakService.login({
-      redirectUri: window.location.origin
-    });
-  }
 
 }

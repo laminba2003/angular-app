@@ -6,14 +6,21 @@ export class FetchRequest {
     constructor(public isLoading : boolean) { }
 }
 
+export class SetRoles {
+    static readonly type = '[roles] setRoles';
+    constructor(public roles : string[]) { }
+}
+
 export class AppStateModel {
-    isLoading: boolean
+    isLoading: boolean;
+    roles: string[]
 }
 
 @State<AppStateModel>({
     name: 'appstate',
     defaults: {
-        isLoading: false
+        isLoading: false,
+        roles: []
     }
 })
 @Injectable()
@@ -25,6 +32,13 @@ export class AppState {
     setLoading(ctx: StateContext<AppStateModel>, {isLoading} : FetchRequest) {
         ctx.patchState({
             isLoading: isLoading
+        });
+    }
+
+    @Action(SetRoles)
+    setRoles(ctx: StateContext<AppStateModel>, {roles} : SetRoles) {
+        ctx.patchState({
+            roles: roles
         });
     }
 
