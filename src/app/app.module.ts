@@ -12,6 +12,7 @@ import { RequestInterceptor } from './request.interceptor';
 import { NgxsModule } from '@ngxs/store';
 import { AppState } from './app.state';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
   
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ BrowserModule,
     HttpClientModule,
     NgxsModule.forRoot([AppState]),
     MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [
     {
