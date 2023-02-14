@@ -4,7 +4,7 @@ import { tap } from "rxjs";
 import { Page } from "../../model/page";
 import { Person } from "../../model/person";
 import { PersonService } from './person-service';
-import { DeletePerson, GetPerson, GetPersons } from './person.actions';
+import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './person.actions';
 
 export class PersonStateModel {
     page: Page<Person>;
@@ -53,6 +53,17 @@ export class PersonState {
             ctx.setState({
                 ...state,
                 page: state.page
+            })
+        }))
+    }
+
+    @Action(SearchPersons)
+    searchPersons(ctx: StateContext<PersonStateModel>, { query, pageNumber, pageSize }: SearchPersons) {
+        return this.personService.searchPersons(query, pageNumber, pageSize).pipe(tap(page => {
+            const state = ctx.getState();
+            ctx.setState({
+                ...state,
+                page: page
             })
         }))
     }

@@ -14,7 +14,7 @@ export class PersonService {
   constructor(private httpClient: HttpClient) { }
 
   getPersons(page: number, size: number = 5): Observable<Page<Person>> {
-    return this.httpClient.get<Page<Person>>(this.backendUrl + "?page=" + page + "&size=" + size);
+    return this.httpClient.get<Page<Person>>(this.backendUrl, { params: { page: page, size: size } });
   }
 
   getPerson(id: number): Observable<Person> {
@@ -23,6 +23,10 @@ export class PersonService {
 
   deletePerson(id: number): Observable<any> {
     return this.httpClient.delete(this.backendUrl + "/" + id);
+  }
+
+  searchPersons(query: string, page: number, size: number = 5): Observable<Page<Person>> {
+    return this.httpClient.get<Page<Person>>(this.backendUrl + "/search", { params: { query: query, page: page, size: size } });
   }
 
 }

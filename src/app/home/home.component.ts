@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   async checkLoggedIn() {
     this.auth.isLoggedIn().then((isLoggedIn) => {
       if (isLoggedIn) {
-        this.router.navigate(['countries']);
+        this.router.navigate(['persons']);
       } else {
         this.visible = true;
       }

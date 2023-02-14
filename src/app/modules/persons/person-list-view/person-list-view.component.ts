@@ -8,7 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable, withLatestFrom } from 'rxjs';
-import { DeletePerson, GetPerson, GetPersons } from './../person.actions';
+import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -27,6 +27,8 @@ export class PersonListViewComponent implements OnInit {
   dataSource: MatTableDataSource<Person> = new MatTableDataSource(this.page.content);
   personInfo$: Observable<Person>;
   pageInfo$: Observable<Page<Person>>;
+  isSearching: boolean;
+  searchQuery: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -45,6 +47,7 @@ export class PersonListViewComponent implements OnInit {
   }
 
   getPersons() {
+    this.isSearching = false;
     this.store.dispatch(new GetPersons(this.page.number, this.page.size))
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.page = page;
@@ -85,7 +88,11 @@ export class PersonListViewComponent implements OnInit {
   handlePagination(event: any) {
     this.page.number = event.pageIndex;
     this.page.size = event.pageSize;
-    this.getPersons();
+    if (this.isSearching) {
+      this.handleSearch();
+    } else {
+      this.getPersons();
+    }
   }
 
   refreshDataSource(): void {
@@ -96,8 +103,19 @@ export class PersonListViewComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  search(input: string): void {
+  search(query: string): void {
+    this.page.number = 0;
+    this.searchQuery = query;
+    this.isSearching = true;
+    this.handleSearch();
+  }
 
+  handleSearch(): void {
+    this.store.dispatch(new SearchPersons(this.searchQuery, this.page.number, this.page.size))
+      .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+        this.page = page;
+        this.refreshDataSource();
+      });
   }
 
 }
