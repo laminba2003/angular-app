@@ -27,8 +27,6 @@ export class PersonListViewComponent implements OnInit {
   dataSource: MatTableDataSource<Person> = new MatTableDataSource(this.page.content);
   personInfo$: Observable<Person>;
   pageInfo$: Observable<Page<Person>>;
-  isSearching: boolean;
-  searchQuery: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -46,8 +44,7 @@ export class PersonListViewComponent implements OnInit {
     }
   }
 
-  getPersons() {
-    this.isSearching = false;
+  getPersons(): void {
     this.store.dispatch(new GetPersons(this.page.number, this.page.size))
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.page = page;
@@ -74,25 +71,19 @@ export class PersonListViewComponent implements OnInit {
     this.dialog.open(ConfirmDialogComponent, {
       data: () => {
         this.store.dispatch(new DeletePerson(id)).pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
-          if (page.totalElements == page.size && page.content.length < page.size) {
-            this.getPersons();
-          } else {
-            this.refreshDataSource();
-          }
+          (page.totalElements == page.size && page.content.length < page.size) ? this.getPersons() : this.refreshDataSource();
         });
       },
       disableClose: true
     });
   }
 
-  handlePagination(event: any) {
+  handlePagination(event: any): void {
     this.page.number = event.pageIndex;
     this.page.size = event.pageSize;
-    if (this.isSearching) {
-      this.handleSearch();
-    } else {
-      this.getPersons();
-    }
+    const isSearching = this.store.selectSnapshot(state => state.personstate.isSearching);
+    const searchQuery = this.store.selectSnapshot(state => state.personstate.searchQuery);
+    isSearching ? this.handleSearch(searchQuery) : this.getPersons();
   }
 
   refreshDataSource(): void {
@@ -101,21 +92,25 @@ export class PersonListViewComponent implements OnInit {
       return property == 'country.name' ? item.country.name : String(item[property as keyof Person]);
     };
     this.dataSource.sort = this.sort;
+    this.paginator.pageIndex = this.page.number;
   }
 
   search(query: string): void {
     this.page.number = 0;
-    this.searchQuery = query;
-    this.isSearching = true;
-    this.handleSearch();
+    this.handleSearch(query);
   }
 
-  handleSearch(): void {
-    this.store.dispatch(new SearchPersons(this.searchQuery, this.page.number, this.page.size))
+  handleSearch(query: string): void {
+    this.store.dispatch(new SearchPersons(query, this.page.number, this.page.size))
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.page = page;
         this.refreshDataSource();
       });
+  }
+
+  refresh(): void {
+    this.page.number = 0;
+    this.getPersons();
   }
 
 }

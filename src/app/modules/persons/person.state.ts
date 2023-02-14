@@ -8,14 +8,18 @@ import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './person.act
 
 export class PersonStateModel {
     page: Page<Person>;
-    person: Person
+    person: Person;
+    isSearching: boolean;
+    searchQuery: string
 }
 
 @State<PersonStateModel>({
     name: 'personstate',
     defaults: {
         page: new Page<Person>(),
-        person: new Person()
+        person: new Person(),
+        isSearching: false,
+        searchQuery: ''
     }
 })
 @Injectable()
@@ -28,7 +32,8 @@ export class PersonState {
             const state = ctx.getState();
             ctx.setState({
                 ...state,
-                page: page
+                page: page,
+                isSearching: false
             })
         }))
     }
@@ -63,7 +68,9 @@ export class PersonState {
             const state = ctx.getState();
             ctx.setState({
                 ...state,
-                page: page
+                page: page,
+                isSearching: true,
+                searchQuery: query
             })
         }))
     }
