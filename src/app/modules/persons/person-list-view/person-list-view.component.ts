@@ -89,7 +89,14 @@ export class PersonListViewComponent implements OnInit {
   refreshDataSource(): void {
     this.dataSource = new MatTableDataSource(this.page.content);
     this.dataSource.sortingDataAccessor = (item, property) => {
-      return property == 'country.name' ? item.country.name : String(item[property as keyof Person]);
+      switch (property) {
+        case 'country.name':
+          return item.country.name;
+        case 'id':
+          return Number(item[property as keyof Person]);
+        default:
+          return String(item[property as keyof Person]);
+      }
     };
     this.dataSource.sort = this.sort;
     this.paginator.pageIndex = this.page.number;
