@@ -16,10 +16,11 @@ import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../cou
 export class CountryListViewComponent extends ListView<Country> implements OnInit {
 
   constructor(public auth: AuthService, private route: ActivatedRoute, store: Store, dialog: MatDialog) {
-    super(store, dialog, () => { return this.getCountries() });
+    super(store, dialog, () => { return this.getCountries() }, {
+      page: (state) => state.countrystate.page,
+      entity: (state) => state.countrystate.country
+    });
     this.displayedColumns = ['name', 'capital', 'population', 'actions'];
-    this.pageInfo$ = this.store.select(state => state.countrystate.page);
-    this.entityInfo$ = this.store.select(state => state.countrystate.country);
   }
 
   override ngOnInit(): void {

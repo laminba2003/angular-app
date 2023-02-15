@@ -17,10 +17,11 @@ import { ListView } from '../../../components/ListView';
 export class PersonListViewComponent extends ListView<Person> implements OnInit {
 
   constructor(public auth: AuthService, private route: ActivatedRoute, store: Store, dialog: MatDialog) {
-    super(store, dialog, () => { return this.getPersons() });
+    super(store, dialog, () => { return this.getPersons() }, {
+      page: (state) => state.personstate.page,
+      entity: (state) => state.personstate.person
+    });
     this.displayedColumns = ['id', 'firstName', 'lastName', 'country', 'actions'];
-    this.pageInfo$ = this.store.select(state => state.personstate.page);
-    this.entityInfo$ = this.store.select(state => state.personstate.person);
   }
 
   override ngOnInit(): void {
