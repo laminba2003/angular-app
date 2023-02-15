@@ -33,35 +33,19 @@ export class PersonListViewComponent extends ListView<Person> implements OnInit 
   }
 
   getPersons(): void {
-    this.store.dispatch(new GetPersons(this.page.number, this.page.size))
-      .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
-        this.update(page);
-      });
+    this.getEntities(new GetPersons(this.page.number, this.page.size));
   }
 
   getPerson(id: number): void {
-    this.store.dispatch(new GetPerson(id))
-      .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, person]) => {
-        this.show(PersonDetailsComponent, person);
-      });
+    this.getEntity(new GetPerson(id), PersonDetailsComponent);
   }
 
-  editPerson(id: number, e: Event): void {
-    e.stopPropagation();
-    this.store.dispatch(new GetPerson(id))
-      .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, person]) => {
-        this.show(PersonDetailsComponent, person);
-      });
+  editPerson(id: number, event: Event): void {
+    this.editEntity(new GetPerson(id), PersonDetailsComponent, event);
   }
 
-  deletePerson(id: number, e: Event): void {
-    e.stopPropagation();
-    this.confirm(() => {
-      this.store.dispatch(new DeletePerson(id))
-        .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
-          this.update(page);
-        });
-    });
+  deletePerson(id: number, event: Event): void {
+    this.deleteEntity(new DeletePerson(id), event);
   }
 
   override handleSorting(): void {

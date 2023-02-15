@@ -5,7 +5,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Store } from "@ngxs/store";
-import { Observable } from "rxjs";
+import { Observable, withLatestFrom } from "rxjs";
 import { DoSearch, SetSearch } from "../app.state";
 import { Page } from "../model/page";
 import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
@@ -34,6 +34,35 @@ export abstract class ListView<T> implements OnInit {
     this.getData();
   }
 
+  getEntities(action: any): void {
+    this.store.dispatch(action)
+      .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+        this.update(page);
+      });
+  }
+
+  getEntity(action: any, component: ComponentType<any>): void {
+    this.store.dispatch(action)
+      .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
+        this.show(component, entity);
+      });
+  }
+
+  editEntity(action: any, component: ComponentType<any>, event: Event): void {
+    event.stopPropagation();
+    this.getEntity(action, component);
+  }
+
+  deleteEntity(action: any, event: Event): void {
+    event.stopPropagation();
+    this.confirm(() => {
+      this.store.dispatch(action)
+        .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+          this.update(page);
+        });
+    });
+  }
+  
   search(query: string): void {
     this.page.number = 0;
     if (query.trim()) {
