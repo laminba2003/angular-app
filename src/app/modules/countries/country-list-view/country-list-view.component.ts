@@ -19,8 +19,7 @@ export class CountryListViewComponent extends ListView<Country> implements OnIni
     super(store, dialog, () => { return this.getCountries() }, {
       page: (state) => state.countrystate.page,
       entity: (state) => state.countrystate.country
-    });
-    this.displayedColumns = ['name', 'capital', 'population', 'actions'];
+    }, ['name', 'capital', 'population', 'actions']);
   }
 
   override ngOnInit(): void {

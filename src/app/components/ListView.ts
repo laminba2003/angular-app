@@ -11,7 +11,7 @@ import { Page } from "../model/page";
 import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
 
 export class State {
-  page: (state: any) => any;
+  page: (state: any) => any ;
   entity: (state: any) => any;
 }
 
@@ -26,7 +26,7 @@ export abstract class ListView<T> implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(protected store: Store, protected dialog: MatDialog, private getData: Function, private state: State) {
+  constructor(protected store: Store, protected dialog: MatDialog, private getData: Function, private state: State, displayedColumns: Array<string>) {
     this.store.dispatch(new SetSearch(this.search.bind(this)));
     const initial = this.getData.bind(this);
     this.getData = () => {
@@ -35,6 +35,7 @@ export abstract class ListView<T> implements OnInit {
     }
     this.pageInfo$ = this.store.select(this.state.page);
     this.entityInfo$ = this.store.select(this.state.entity);
+    this.displayedColumns = displayedColumns;
   }
 
   ngOnInit(): void {

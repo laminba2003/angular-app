@@ -20,8 +20,7 @@ export class PersonListViewComponent extends ListView<Person> implements OnInit 
     super(store, dialog, () => { return this.getPersons() }, {
       page: (state) => state.personstate.page,
       entity: (state) => state.personstate.person
-    });
-    this.displayedColumns = ['id', 'firstName', 'lastName', 'country', 'actions'];
+    }, ['id', 'firstName', 'lastName', 'country', 'actions']);
   }
 
   override ngOnInit(): void {
