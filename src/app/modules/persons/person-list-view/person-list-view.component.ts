@@ -55,10 +55,7 @@ export class PersonListViewComponent extends ListView<Person> implements OnInit 
   }
 
   override handleSearch(query: string): void {
-    this.store.dispatch(new SearchPersons(query, this.page.number, this.page.size))
-      .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
-        this.update(page);
-      });
+    this.getEntities(new SearchPersons(query, this.page.number, this.page.size));
   }
 
 }

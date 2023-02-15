@@ -62,7 +62,7 @@ export abstract class ListView<T> implements OnInit {
         });
     });
   }
-  
+
   search(query: string): void {
     this.page.number = 0;
     if (query.trim()) {
