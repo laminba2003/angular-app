@@ -15,6 +15,7 @@ export class PersonDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.history.replaceState({}, '', `/persons/${this.person.id}`);
     this.dialogRef.afterClosed().subscribe(() => {
       window.history.replaceState({}, '', `/persons`);
     })

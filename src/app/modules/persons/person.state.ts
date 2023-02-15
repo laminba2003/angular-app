@@ -8,18 +8,14 @@ import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './person.act
 
 export class PersonStateModel {
     page: Page<Person>;
-    person: Person;
-    isSearching: boolean;
-    searchQuery: string
+    person: Person
 }
 
 @State<PersonStateModel>({
     name: 'personstate',
     defaults: {
         page: new Page<Person>(),
-        person: new Person(),
-        isSearching: false,
-        searchQuery: ''
+        person: new Person()
     }
 })
 @Injectable()
@@ -29,49 +25,40 @@ export class PersonState {
     @Action(GetPersons)
     getPersons(ctx: StateContext<PersonStateModel>, { pageNumber, pageSize }: GetPersons) {
         return this.personService.getPersons(pageNumber, pageSize).pipe(tap(page => {
-            const state = ctx.getState();
-            ctx.setState({
-                ...state,
-                page: page,
-                isSearching: false
-            })
+            ctx.patchState({
+                page: page
+            });
         }))
     }
 
     @Action(GetPerson)
     getPerson(ctx: StateContext<PersonStateModel>, { id }: GetPerson) {
         return this.personService.getPerson(id).pipe(tap(person => {
-            const state = ctx.getState();
-            ctx.setState({
-                ...state,
+            ctx.patchState({
                 person: person
-            })
+            });
         }))
     }
 
     @Action(DeletePerson)
     deletePerson(ctx: StateContext<PersonStateModel>, { id }: DeletePerson) {
         return this.personService.deletePerson(id).pipe(tap(() => {
-            const state=ctx.getState();
-            state.page.content = state.page.content.filter(person => person.id!==id);
-            state.page.totalElements--;
-            ctx.setState({
-                ...state,
-                page: state.page
-            })
+            const state = ctx.getState();
+            const page = state.page;
+            page.content = page.content.filter(person => person.id !== id);
+            page.totalElements--;
+            ctx.patchState({
+                page: page
+            });
         }))
     }
 
     @Action(SearchPersons)
     searchPersons(ctx: StateContext<PersonStateModel>, { query, pageNumber, pageSize }: SearchPersons) {
         return this.personService.searchPersons(query, pageNumber, pageSize).pipe(tap(page => {
-            const state = ctx.getState();
-            ctx.setState({
-                ...state,
-                page: page,
-                isSearching: true,
-                searchQuery: query
-            })
+            ctx.patchState({
+                page: page
+            });
         }))
     }
 }

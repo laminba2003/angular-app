@@ -12,15 +12,21 @@ export class SetRoles {
 }
 
 export class SetSearch {
-    static readonly type = '[roles] setSearch';
+    static readonly type = '[search] setSearch';
     constructor(public search : Function) { }
 }
 
+export class DoSearch {
+    static readonly type = '[search] DoSearch';
+    constructor(public isSearching: boolean, public query?: string) { }
+}
 
 export class AppStateModel {
     isLoading: boolean;
     roles: string[];
-    search: Function
+    search: Function;
+    isSearching: boolean;
+    searchQuery: string
 }
 
 @State<AppStateModel>({
@@ -28,7 +34,9 @@ export class AppStateModel {
     defaults: {
         isLoading: false,
         roles: [],
-        search: function(){}
+        search: function(){},
+        isSearching: false,
+        searchQuery: ''
     }
 })
 @Injectable()
@@ -55,5 +63,12 @@ export class AppState {
         });
     }
 
+    @Action(DoSearch)
+    doSearch(ctx: StateContext<AppStateModel>, {isSearching, query} : DoSearch) {
+        ctx.patchState({
+            isSearching: isSearching,
+            searchQuery: query
+        });
+    }
 
 }
