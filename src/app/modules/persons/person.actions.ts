@@ -26,6 +26,6 @@ export class DeletePerson {
 }
 
 export class SearchPersons {
-    static readonly type = '[Person] Search';
+    static readonly type = '[Persons] Search';
     constructor(public query: string, public pageNumber : number, public pageSize : number) { }
 }

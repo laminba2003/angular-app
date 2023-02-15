@@ -5,7 +5,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Store } from "@ngxs/store";
-import { Observable, withLatestFrom } from "rxjs";
+import { Observable, of, withLatestFrom } from "rxjs";
 import { DoSearch, SetSearch } from "../app.state";
 import { Page } from "../model/page";
 import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
@@ -16,8 +16,8 @@ export abstract class ListView<T> implements OnInit {
   page: Page<T> = { content: [], totalElements: 0, number: 0, size: 5 };
   dataSource: MatTableDataSource<T> = new MatTableDataSource(this.page.content);
   displayedColumns: string[] = [];
-  protected entityInfo$: Observable<T>;
-  protected pageInfo$: Observable<Page<T>>;
+  protected entityInfo$: Observable<T> = of();
+  protected pageInfo$: Observable<Page<T>> = of();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 

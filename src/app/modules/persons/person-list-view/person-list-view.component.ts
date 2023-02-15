@@ -3,7 +3,6 @@ import { Person } from './../../../model/person';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { Store } from '@ngxs/store';
-import { withLatestFrom } from 'rxjs';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
