@@ -4,10 +4,13 @@ import { CountryListViewComponent } from './country-list-view/country-list-view.
 
 const routes: Routes = [{
   path: '', component: CountryListViewComponent
+},
+{
+  path: ':name', component: CountryListViewComponent
 }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-exports: [RouterModule]
+  exports: [RouterModule]
 })
 export class CountriesRoutingModule { }
