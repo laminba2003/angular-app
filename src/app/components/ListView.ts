@@ -1,4 +1,6 @@
+import { ComponentType } from "@angular/cdk/portal";
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -6,6 +8,7 @@ import { Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { DoSearch, SetSearch } from "../app.state";
 import { Page } from "../model/page";
+import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
 
 @Component({ template: '' })
 export abstract class ListView<T> implements OnInit {
@@ -18,7 +21,7 @@ export abstract class ListView<T> implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(protected store: Store, private getData: Function) {
+  constructor(protected store: Store, protected dialog: MatDialog, private getData: Function) {
     this.store.dispatch(new SetSearch(this.search.bind(this)));
     const initial = this.getData.bind(this);
     this.getData = () => {
@@ -72,6 +75,19 @@ export abstract class ListView<T> implements OnInit {
     this.dataSource.sortingDataAccessor = (entity, property) => {
       return this.getProperty(entity, property as keyof T);
     };
+  }
+
+  show(component: ComponentType<any>, data: T): void {
+    this.dialog.open(component, {
+      data: data
+    });
+  }
+
+  confirm(callback: Function): void {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: callback,
+      disableClose: true
+    });
   }
 
   getProperty<K extends keyof T>(entity: T, k: K): any {

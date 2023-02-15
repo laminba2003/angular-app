@@ -5,7 +5,6 @@ import { PersonDetailsComponent } from '../person-details/person-details.compone
 import { Store } from '@ngxs/store';
 import { withLatestFrom } from 'rxjs';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
-import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ListView } from '../../../components/ListView';
@@ -18,8 +17,8 @@ import { ListView } from '../../../components/ListView';
 })
 export class PersonListViewComponent extends ListView<Person> implements OnInit {
 
-  constructor(public auth: AuthService, private route: ActivatedRoute, store: Store, private dialog: MatDialog) {
-    super(store, () => { return this.getPersons() });
+  constructor(public auth: AuthService, private route: ActivatedRoute, store: Store, dialog: MatDialog) {
+    super(store, dialog, () => { return this.getPersons() });
     this.displayedColumns = ['id', 'firstName', 'lastName', 'country', 'actions'];
     this.pageInfo$ = this.store.select(state => state.personstate.page);
     this.entityInfo$ = this.store.select(state => state.personstate.person);
@@ -43,9 +42,7 @@ export class PersonListViewComponent extends ListView<Person> implements OnInit 
   getPerson(id: number): void {
     this.store.dispatch(new GetPerson(id))
       .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, person]) => {
-        this.dialog.open(PersonDetailsComponent, {
-          data: person
-        });
+        this.show(PersonDetailsComponent, person);
       });
   }
 
@@ -53,22 +50,17 @@ export class PersonListViewComponent extends ListView<Person> implements OnInit 
     e.stopPropagation();
     this.store.dispatch(new GetPerson(id))
       .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, person]) => {
-        this.dialog.open(PersonDetailsComponent, {
-          data: person
-        });
+        this.show(PersonDetailsComponent, person);
       });
   }
 
   deletePerson(id: number, e: Event): void {
     e.stopPropagation();
-    this.dialog.open(ConfirmDialogComponent, {
-      data: () => {
-        this.store.dispatch(new DeletePerson(id))
-          .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
-            this.update(page);
-          });
-      },
-      disableClose: true
+    this.confirm(() => {
+      this.store.dispatch(new DeletePerson(id))
+        .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+          this.update(page);
+        });
     });
   }
 
