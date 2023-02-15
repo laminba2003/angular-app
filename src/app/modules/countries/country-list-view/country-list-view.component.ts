@@ -24,6 +24,10 @@ export class CountryListViewComponent extends ListView<Country> implements OnIni
 
   override ngOnInit(): void {
     super.ngOnInit();
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.getCountry(id);
+    }
   }
 
   getCountries(): void {
