@@ -18,7 +18,7 @@ export class PersonDetailsComponent implements OnInit {
     window.history.replaceState({}, '', `/persons/${this.person.id}`);
     this.dialogRef.afterClosed().subscribe(() => {
       window.history.replaceState({}, '', `/persons`);
-    })
+    });
   }
 
 

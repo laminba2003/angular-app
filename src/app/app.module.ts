@@ -12,9 +12,8 @@ import { RequestInterceptor } from './request.interceptor';
 import { NgxsModule } from '@ngxs/store';
 import { AppState } from './app.state';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
-export let AppInjector: Injector;
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { setAppInjector } from './app.injector';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,7 @@ export let AppInjector: Injector;
     LayoutComponent,
   ],
   imports: [
-BrowserModule,
+    BrowserModule,
     AppRoutingModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
@@ -48,8 +47,8 @@ BrowserModule,
   bootstrap: [AppComponent]
 })
 
-export class AppModule { 
-  constructor(private injector: Injector) {
-    AppInjector = this.injector;
+export class AppModule {
+  constructor(injector: Injector) {
+    setAppInjector(injector);
   }
 }

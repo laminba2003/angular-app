@@ -6,7 +6,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Store } from "@ngxs/store";
 import { Observable, of, withLatestFrom } from "rxjs";
-import { AppInjector } from "../app.module";
+import { AppInjector } from "../app.injector";
 import { DoSearch, SetSearch } from "../app.state";
 import { Page } from "../model/page";
 import { AuthService } from "../services/auth.service";
