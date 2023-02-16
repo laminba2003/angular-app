@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,7 +13,9 @@ import { NgxsModule } from '@ngxs/store';
 import { AppState } from './app.state';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-  
+
+export let AppInjector: Injector;
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,4 +47,9 @@ BrowserModule,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule { 
+  constructor(private injector: Injector) {
+    AppInjector = this.injector;
+  }
+}

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from './../../../model/person';
-import { MatDialog } from '@angular/material/dialog';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
-import { Store } from '@ngxs/store';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
-import { ListView } from '../../../components/ListView';
+import { ListViewComponent } from '../../../components/ListViewComponent';
 
 
 @Component({
@@ -14,13 +11,13 @@ import { ListView } from '../../../components/ListView';
   templateUrl: './person-list-view.component.html',
   styleUrls: ['./person-list-view.component.css']
 })
-export class PersonListViewComponent extends ListView<Person> implements OnInit {
+export class PersonListViewComponent extends ListViewComponent<Person> implements OnInit {
 
-  constructor(public auth: AuthService, private route: ActivatedRoute, store: Store, dialog: MatDialog) {
-    super(store, dialog, () => { return this.getPersons() }, {
+  constructor(private route: ActivatedRoute) {
+    super({
       page: (state) => state.personstate.page,
       entity: (state) => state.personstate.person
-    }, ['id', 'firstName', 'lastName', 'country', 'actions']);
+    }, () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
   }
 
   override ngOnInit(): void {

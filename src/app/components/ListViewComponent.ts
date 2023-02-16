@@ -6,8 +6,10 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Store } from "@ngxs/store";
 import { Observable, of, withLatestFrom } from "rxjs";
+import { AppInjector } from "../app.module";
 import { DoSearch, SetSearch } from "../app.state";
 import { Page } from "../model/page";
+import { AuthService } from "../services/auth.service";
 import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
 
 export class State {
@@ -16,7 +18,7 @@ export class State {
 }
 
 @Component({ template: '' })
-export abstract class ListView<T> implements OnInit {
+export abstract class ListViewComponent<T> implements OnInit {
 
   page: Page<T> = { content: [], totalElements: 0, number: 0, size: 5 };
   dataSource: MatTableDataSource<T> = new MatTableDataSource(this.page.content);
@@ -25,8 +27,12 @@ export abstract class ListView<T> implements OnInit {
   protected pageInfo$: Observable<Page<T>> = of();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  private dialog: MatDialog;
+  protected store: Store;
+  auth: AuthService;
 
-  constructor(protected store: Store, protected dialog: MatDialog, private getData: Function, private state: State, displayedColumns: Array<string>) {
+  constructor(private state: State, private getData: Function, displayedColumns: Array<string>) {
+    this.store = AppInjector.get(Store);
     this.store.dispatch(new SetSearch(this.search.bind(this)));
     const initial = this.getData.bind(this);
     this.getData = () => {
@@ -36,6 +42,8 @@ export abstract class ListView<T> implements OnInit {
     this.pageInfo$ = this.store.select(this.state.page);
     this.entityInfo$ = this.store.select(this.state.entity);
     this.displayedColumns = displayedColumns;
+    this.dialog = AppInjector.get(MatDialog);
+    this.auth = AppInjector.get(AuthService);
   }
 
   ngOnInit(): void {

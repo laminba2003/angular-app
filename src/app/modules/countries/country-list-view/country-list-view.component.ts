@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { ListView } from 'src/app/components/ListView';
+import { ListViewComponent } from 'src/app/components/ListViewComponent';
 import { Country } from 'src/app/model/country';
-import { AuthService } from 'src/app/services/auth.service';
 import { CountryDetailsComponent } from '../country-details/country-details.component';
 import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../country.actions';
 
@@ -13,13 +10,13 @@ import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../cou
   templateUrl: './country-list-view.component.html',
   styleUrls: ['./country-list-view.component.css']
 })
-export class CountryListViewComponent extends ListView<Country> implements OnInit {
+export class CountryListViewComponent extends ListViewComponent<Country> implements OnInit {
 
-  constructor(public auth: AuthService, private route: ActivatedRoute, store: Store, dialog: MatDialog) {
-    super(store, dialog, () => { return this.getCountries() }, {
+  constructor(private route: ActivatedRoute) {
+    super({
       page: (state) => state.countrystate.page,
       entity: (state) => state.countrystate.country
-    }, ['name', 'capital', 'population', 'actions']);
+    }, () => { return this.getCountries() }, ['name', 'capital', 'population', 'actions']);
   }
 
   override ngOnInit(): void {
