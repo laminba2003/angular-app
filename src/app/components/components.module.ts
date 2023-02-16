@@ -6,8 +6,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-import { SpinnerComponent } from './spinner/spinner.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 
@@ -15,7 +13,6 @@ import {MatIconModule} from '@angular/material/icon';
   declarations: [
     HeaderComponent,
     ConfirmDialogComponent,
-    SpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -23,14 +20,12 @@ import {MatIconModule} from '@angular/material/icon';
     MatDialogModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule,
     MatToolbarModule,
     MatIconModule
   ],
   exports:[
     HeaderComponent,
     ConfirmDialogComponent,
-    SpinnerComponent,
     MatTableModule,
     MatDialogModule,
     MatPaginatorModule,

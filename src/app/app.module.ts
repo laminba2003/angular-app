@@ -14,22 +14,26 @@ import { AppState } from './app.state';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { setAppInjector } from './app.injector';
-
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+  
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LayoutComponent,
+    SpinnerComponent
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     AppRoutingModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
     HttpClientModule,
     NgxsModule.forRoot([AppState]),
     MatDialogModule,
-    MatSnackBarModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   providers: [
     {

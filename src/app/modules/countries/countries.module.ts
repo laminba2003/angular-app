@@ -18,7 +18,6 @@ import { CountryState } from '../countries/country.state';
   CommonModule,
     CountriesRoutingModule,
     ComponentsModule,
-    ComponentsModule,
     MatPaginatorModule,
     NgxsModule.forFeature([CountryState])
   ]
