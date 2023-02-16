@@ -4,7 +4,6 @@ import { PersonsRoutingModule } from './persons-routing.module';
 import { PersonListViewComponent } from './person-list-view/person-list-view.component';
 import { ComponentsModule } from '../../components/components.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxsModule } from '@ngxs/store';
 import { PersonState } from './person.state';
 
@@ -17,7 +16,6 @@ import { PersonState } from './person.state';
     CommonModule,
     PersonsRoutingModule,
     ComponentsModule,
-    MatPaginatorModule,
     NgxsModule.forFeature([PersonState])
   ]
 })

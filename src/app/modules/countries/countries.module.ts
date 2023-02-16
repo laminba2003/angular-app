@@ -4,10 +4,8 @@ import { CountriesRoutingModule } from './countries-routing.module';
 import { CountryListViewComponent } from './country-list-view/country-list-view.component';
 import { CountryDetailsComponent } from './country-details/country-details.component';
 import { ComponentsModule } from '../../components/components.module';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxsModule } from '@ngxs/store';
 import { CountryState } from '../countries/country.state';
-
 
 @NgModule({
   declarations: [
@@ -18,7 +16,6 @@ import { CountryState } from '../countries/country.state';
   CommonModule,
     CountriesRoutingModule,
     ComponentsModule,
-    MatPaginatorModule,
     NgxsModule.forFeature([CountryState])
   ]
 })
