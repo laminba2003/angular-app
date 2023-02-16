@@ -4,6 +4,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { Observable, withLatestFrom } from "rxjs";
 import { AppInjector } from "../app.injector";
@@ -30,6 +31,7 @@ export abstract class ListViewComponent<T> implements OnInit {
   private dialog: MatDialog;
   protected store: Store;
   auth: AuthService;
+  protected route: ActivatedRoute;
 
   constructor(private state: State, private getData: Function, displayedColumns: Array<string>) {
     this.store = AppInjector.get(Store);
@@ -44,6 +46,7 @@ export abstract class ListViewComponent<T> implements OnInit {
     this.displayedColumns = displayedColumns;
     this.dialog = AppInjector.get(MatDialog);
     this.auth = AppInjector.get(AuthService);
+    this.route = AppInjector.get(ActivatedRoute);
   }
 
   ngOnInit(): void {

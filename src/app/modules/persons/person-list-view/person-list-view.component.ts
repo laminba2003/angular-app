@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Person } from './../../../model/person';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
-import { ActivatedRoute } from '@angular/router';
 import { ListViewComponent } from '../../../components/ListViewComponent';
 
 @Component({
@@ -12,10 +11,9 @@ import { ListViewComponent } from '../../../components/ListViewComponent';
 })
 export class PersonListViewComponent extends ListViewComponent<Person> implements OnInit {
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
     super({ page: (state) => state.personstate.page, entity: (state) => state.personstate.person },
-      () => { return this.getPersons() },
-      ['id', 'firstName', 'lastName', 'country', 'actions']);
+      () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
   }
 
   override ngOnInit(): void {

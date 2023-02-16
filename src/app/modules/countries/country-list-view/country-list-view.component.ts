@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ListViewComponent } from 'src/app/components/ListViewComponent';
 import { Country } from 'src/app/model/country';
 import { CountryDetailsComponent } from '../country-details/country-details.component';
@@ -12,10 +11,9 @@ import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../cou
 })
 export class CountryListViewComponent extends ListViewComponent<Country> implements OnInit {
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
     super({ page: (state) => state.countrystate.page, entity: (state) => state.countrystate.country },
-      () => { return this.getCountries() },
-      ['name', 'capital', 'population', 'actions']);
+      () => { return this.getCountries() }, ['name', 'capital', 'population', 'actions']);
   }
 
   override ngOnInit(): void {
