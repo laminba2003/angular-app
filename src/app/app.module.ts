@@ -16,7 +16,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { setAppInjector } from './app.injector';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-  
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,15 +31,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SpinnerComponent
   ],
   imports: [
-  BrowserModule,
+    BrowserModule,
     AppRoutingModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
     HttpClientModule,
     NgxsModule.forRoot([AppState]),
-    MatDialogModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [
     {
