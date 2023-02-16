@@ -142,4 +142,8 @@ export abstract class ListViewComponent<T> implements OnInit {
     return entity[k];
   }
 
+  protected getParam(name: string): string | null {
+    return this.route.snapshot.paramMap.get(name);
+  }
+
 }

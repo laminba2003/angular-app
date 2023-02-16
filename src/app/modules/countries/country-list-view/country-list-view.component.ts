@@ -18,7 +18,7 @@ export class CountryListViewComponent extends ListViewComponent<Country> impleme
 
   override ngOnInit(): void {
     super.ngOnInit();
-    const name = this.route.snapshot.paramMap.get('name');
+    const name = this.getParam('name');
     if (name) {
       this.getCountry(name);
     }

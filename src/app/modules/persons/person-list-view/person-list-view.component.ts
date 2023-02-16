@@ -18,7 +18,7 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
 
   override ngOnInit(): void {
     super.ngOnInit();
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(this.getParam('id'));
     if (id) {
       this.getPerson(id);
     }
