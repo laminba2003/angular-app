@@ -13,10 +13,9 @@ import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../cou
 export class CountryListViewComponent extends ListViewComponent<Country> implements OnInit {
 
   constructor(private route: ActivatedRoute) {
-    super({
-      page: (state) => state.countrystate.page,
-      entity: (state) => state.countrystate.country
-    }, () => { return this.getCountries() }, ['name', 'capital', 'population', 'actions']);
+    super({ page: (state) => state.countrystate.page, entity: (state) => state.countrystate.country },
+      () => { return this.getCountries() },
+      ['name', 'capital', 'population', 'actions']);
   }
 
   override ngOnInit(): void {

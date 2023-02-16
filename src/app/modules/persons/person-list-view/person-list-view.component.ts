@@ -5,7 +5,6 @@ import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.
 import { ActivatedRoute } from '@angular/router';
 import { ListViewComponent } from '../../../components/ListViewComponent';
 
-
 @Component({
   selector: 'app-person-list-view',
   templateUrl: './person-list-view.component.html',
@@ -14,10 +13,9 @@ import { ListViewComponent } from '../../../components/ListViewComponent';
 export class PersonListViewComponent extends ListViewComponent<Person> implements OnInit {
 
   constructor(private route: ActivatedRoute) {
-    super({
-      page: (state) => state.personstate.page,
-      entity: (state) => state.personstate.person
-    }, () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
+    super({ page: (state) => state.personstate.page, entity: (state) => state.personstate.person },
+      () => { return this.getPersons() },
+      ['id', 'firstName', 'lastName', 'country', 'actions']);
   }
 
   override ngOnInit(): void {
