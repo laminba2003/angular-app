@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ListViewComponent } from 'src/app/components/ListViewComponent';
-import { Country } from 'src/app/model/country';
+import { ListViewComponent } from '../../../components/ListViewComponent';
+import { Country } from '../../../model/country';
 import { CountryDetailsComponent } from '../country-details/country-details.component';
 import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../country.actions';
 
