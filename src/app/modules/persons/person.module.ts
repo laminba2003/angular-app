@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PersonsRoutingModule } from './persons-routing.module';
+import { PersonRoutingModule } from './person-routing.module';
 import { PersonListViewComponent } from './person-list-view/person-list-view.component';
 import { ComponentsModule } from '../../components/components.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
@@ -14,9 +14,9 @@ import { PersonState } from './person.state';
   ],
   imports: [
     CommonModule,
-    PersonsRoutingModule,
+    PersonRoutingModule,
     ComponentsModule,
     NgxsModule.forFeature([PersonState])
   ]
 })
-export class PersonsModule { }
+export class PersonModule { }

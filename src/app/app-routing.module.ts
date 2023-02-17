@@ -11,12 +11,12 @@ const routes: Routes = [
   {
     path: 'countries',
     component: LayoutComponent,
-    loadChildren: () => import('./modules/countries/countries.module').then(m => m.CountriesModule), canActivate: [AuthGuard]
+    loadChildren: () => import('./modules/countries/country.module').then(m => m.CountryModule), canActivate: [AuthGuard]
   },
   {
     path: 'persons', 
     component: LayoutComponent,
-    loadChildren: () => import('./modules/persons/persons.module').then(m => m.PersonsModule), canActivate: [AuthGuard]
+    loadChildren: () => import('./modules/persons/person.module').then(m => m.PersonModule), canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }
 ];
