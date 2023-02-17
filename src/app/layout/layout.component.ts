@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './../services/auth.service';
 import { Store } from '@ngxs/store';
-import { Observable, withLatestFrom } from 'rxjs';
+import { MENU } from './navigation';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
+
+  readonly menu = MENU;
 
   constructor(
     private store: Store,
     public auth: AuthService
-  ) { 
-  }
-
-  ngOnInit(): void {
+  ) {
   }
 
   doSearch($event: any) {
