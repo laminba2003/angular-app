@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Person } from './../../../model/person';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
-import { ListViewComponent } from '../../../components/ListViewComponent';
+import { ListViewComponent, State } from '../../../components/ListViewComponent';
 
 @Component({
   selector: 'app-person-list-view',
@@ -12,7 +12,7 @@ import { ListViewComponent } from '../../../components/ListViewComponent';
 export class PersonListViewComponent extends ListViewComponent<Person> implements OnInit {
 
   constructor() {
-    super({ page: (state) => state.personstate.page, entity: (state) => state.personstate.person },
+    super(new State(state => state.personstate.page, state => state.personstate.person),
       () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
   }
 
@@ -25,19 +25,19 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
   }
 
   getPersons(): void {
-    this.getEntities(new GetPersons(this.page.number, this.page.size));
+    this.getResources(new GetPersons(this.page.number, this.page.size));
   }
 
   getPerson(id: number): void {
-    this.getEntity(new GetPerson(id), PersonDetailsComponent);
+    this.getResource(new GetPerson(id), PersonDetailsComponent);
   }
 
   editPerson(id: number, event: Event): void {
-    this.editEntity(new GetPerson(id), PersonDetailsComponent, event);
+    this.editResource(new GetPerson(id), PersonDetailsComponent, event);
   }
 
   deletePerson(id: number, event: Event): void {
-    this.deleteEntity(new DeletePerson(id), event);
+    this.deleteResource(new DeletePerson(id), event);
   }
 
   override handleSorting(): void {
@@ -47,7 +47,7 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
   }
 
   override handleSearch(query: string): void {
-    this.getEntities(new SearchPersons(query, this.page.number, this.page.size));
+    this.getResources(new SearchPersons(query, this.page.number, this.page.size));
   }
 
 }

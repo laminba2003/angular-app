@@ -14,8 +14,12 @@ import { AuthService } from "../services/auth.service";
 import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
 
 export class State {
-  page: (state: any) => any ;
+  page: (state: any) => any;
   entity: (state: any) => any;
+  constructor(page: (state: any) => any, entity: (state: any) => any) {
+    this.page = page;
+    this.entity = entity;
+  }
 }
 
 @Component({ template: '' })
@@ -53,26 +57,26 @@ export abstract class ListViewComponent<T> implements OnInit {
     this.getData();
   }
 
-  getEntities(action: any): void {
+  getResources(action: any): void {
     this.store.dispatch(action)
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.update(page);
       });
   }
 
-  getEntity(action: any, component: ComponentType<any>): void {
+  getResource(action: any, component: ComponentType<any>): void {
     this.store.dispatch(action)
       .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
         this.show(component, entity);
       });
   }
 
-  editEntity(action: any, component: ComponentType<any>, event: Event): void {
+  editResource(action: any, component: ComponentType<any>, event: Event): void {
     event.stopPropagation();
-    this.getEntity(action, component);
+    this.getResource(action, component);
   }
 
-  deleteEntity(action: any, event: Event): void {
+  deleteResource(action: any, event: Event): void {
     event.stopPropagation();
     this.confirm(() => {
       this.store.dispatch(action)

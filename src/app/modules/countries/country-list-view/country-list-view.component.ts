@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListViewComponent } from '../../../components/ListViewComponent';
+import { ListViewComponent, State } from '../../../components/ListViewComponent';
 import { Country } from '../../../model/country';
 import { CountryDetailsComponent } from '../country-details/country-details.component';
 import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../country.actions';
@@ -12,7 +12,7 @@ import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../cou
 export class CountryListViewComponent extends ListViewComponent<Country> implements OnInit {
 
   constructor() {
-    super({ page: (state) => state.countrystate.page, entity: (state) => state.countrystate.country },
+    super(new State(state => state.countrystate.page, state => state.countrystate.country),
       () => { return this.getCountries() }, ['name', 'capital', 'population', 'actions']);
   }
 
@@ -25,23 +25,23 @@ export class CountryListViewComponent extends ListViewComponent<Country> impleme
   }
 
   getCountries(): void {
-    this.getEntities(new GetCountries(this.page.number, this.page.size));
+    this.getResources(new GetCountries(this.page.number, this.page.size));
   }
 
   getCountry(name: string): void {
-    this.getEntity(new GetCountry(name), CountryDetailsComponent);
+    this.getResource(new GetCountry(name), CountryDetailsComponent);
   }
 
   editCountry(name: string, event: Event): void {
-    this.editEntity(new GetCountry(name), CountryDetailsComponent, event);
+    this.editResource(new GetCountry(name), CountryDetailsComponent, event);
   }
 
   deleteCountry(name: string, event: Event): void {
-    this.deleteEntity(new DeleteCountry(name), event);
+    this.deleteResource(new DeleteCountry(name), event);
   }
 
   override handleSearch(query: string): void {
-    this.getEntities(new SearchCountries(query, this.page.number, this.page.size));
+    this.getResources(new SearchCountries(query, this.page.number, this.page.size));
   }
 
 }
