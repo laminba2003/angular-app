@@ -71,12 +71,14 @@ export abstract class ListViewComponent<T> implements OnInit {
   }
 
   getResource(action: any, component: ComponentType<any>, callback?: Function): void {
-    this.isLoading$ = of(false);
-    this.store.dispatch(action)
-      .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
-        this.show(component, entity);
-        callback?.(entity);
-      });
+    if(!this.store.selectSnapshot(state => state.appstate.isLoading)) {
+      this.isLoading$ = of(false);
+      this.store.dispatch(action)
+        .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
+          this.show(component, entity);
+          callback?.(entity);
+        });
+    }
   }
 
   editResource(action: any, component: ComponentType<any>, callback?: Function): void {

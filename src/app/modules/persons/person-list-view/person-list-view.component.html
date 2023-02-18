@@ -13,37 +13,37 @@
     <table mat-table [dataSource]="dataSource" matSort  class="w-full">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> No. </th>
-            <td mat-cell *matCellDef="let person" (click)="getPerson(person.id)">
+            <td mat-cell *matCellDef="let person">
                 <div>{{person.id}}</div>  
             </td>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="firstName">
             <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> First Name </th>
-            <td mat-cell *matCellDef="let person" (click)="getPerson(person.id)">
+            <td mat-cell *matCellDef="let person">
                <div>{{person.firstName}}</div>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="lastName">
             <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> Last Name </th>
-            <td mat-cell *matCellDef="let person" (click)="getPerson(person.id)">
+            <td mat-cell *matCellDef="let person">
                 <div>{{person.lastName}}</div>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="country">
             <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> Country </th>
-            <td mat-cell *matCellDef="let person" (click)="getPerson(person.id)">
+            <td mat-cell *matCellDef="let person">
                 <div>{{person.country?.name}}</div>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> </th>
-            <td mat-cell *matCellDef="let person" (click)="getPerson(person.id)">
+            <td mat-cell *matCellDef="let person">
                 <div>
-                    <div class="float-right">
+                    <div class="float-right" *ngIf="person.id">
                         <button appDialog (click)="editPerson(person.id);"
                             class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             type="button">
@@ -61,7 +61,8 @@
         </ng-container>
         
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'table-loading': isLoading$ | async, 'text-sm':true, 'cursor-pointer':true}"></tr>
+        <tr mat-row *matRowDef="let person; columns: displayedColumns;" (click)="getPerson(person.id)"
+            [ngClass]="{'table-loading': isLoading$ | async, 'text-sm':true, 'cursor-pointer': !(isLoading$ | async)}"></tr>
         <tr class="mat-row" *matNoDataRow style="text-align:center">
             <td class="mat-cell" [attr.colspan]="displayedColumns.length">
               No records
