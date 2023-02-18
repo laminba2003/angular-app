@@ -57,29 +57,32 @@ export abstract class ListViewComponent<T> implements OnInit {
     this.getData();
   }
 
-  getResources(action: any): void {
+  getResources(action: any, callback?: Function): void {
     this.store.dispatch(action)
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.update(page);
+        callback?.(page);
       });
   }
 
-  getResource(action: any, component: ComponentType<any>): void {
+  getResource(action: any, component: ComponentType<any>, callback?: Function): void {
     this.store.dispatch(action)
       .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
         this.show(component, entity);
+        callback?.(entity);
       });
   }
 
-  editResource(action: any, component: ComponentType<any>): void {
-    this.getResource(action, component);
+  editResource(action: any, component: ComponentType<any>, callback?: Function): void {
+    this.getResource(action, component, callback);
   }
 
-  deleteResource(action: any): void {
+  deleteResource(action: any, callback?: Function): void {
     this.confirm(() => {
       this.store.dispatch(action)
         .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
           this.update(page);
+          callback?.(page);
         });
     });
   }
