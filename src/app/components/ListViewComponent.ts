@@ -140,8 +140,8 @@ export abstract class ListViewComponent<T> implements OnInit {
     });
   }
 
-  getProperty<K extends keyof T>(entity: T, k: K): any {
-    return entity[k];
+  getProperty(entity: T, k: any): any {
+    return entity[k as keyof T];
   }
 
   protected getParam(name: string): string | null {

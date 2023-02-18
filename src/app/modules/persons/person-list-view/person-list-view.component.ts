@@ -42,7 +42,7 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
 
   override handleSorting(): void {
     this.dataSource.sortingDataAccessor = (person, property) => {
-      return property == 'country' ? person.country.name : this.getProperty(person, property as keyof Person);
+      return property == 'country' ? person.country.name : this.getProperty(person, property);
     };
   }
 
