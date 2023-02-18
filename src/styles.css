@@ -54,8 +54,11 @@ table .table-loading {
 
 table .table-loading td > div {
     height: 30px;
-    width: 100%;
+    width: 80%;
     overflow: hidden;
+    margin-left:0;
+    margin-right: auto;
+    content-visibility: hidden;
 }
 
 table .table-loading td > div > * {
