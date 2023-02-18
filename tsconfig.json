@@ -12,6 +12,9 @@
       ],
       "@components/*": [
         "app/components/*"
+      ],
+      "@directives/*": [
+        "app/directives/*"
       ]
     },
     "outDir": "./dist/out-tsc",

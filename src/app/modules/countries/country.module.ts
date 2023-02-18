@@ -6,6 +6,7 @@ import { CountryDetailsComponent } from './country-details/country-details.compo
 import { ComponentsModule } from '@components/components.module';
 import { NgxsModule } from '@ngxs/store';
 import { CountryState } from './country.state';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { CountryState } from './country.state';
   CommonModule,
     CountryRoutingModule,
     ComponentsModule,
+    DirectivesModule,
     NgxsModule.forFeature([CountryState])
   ]
 })

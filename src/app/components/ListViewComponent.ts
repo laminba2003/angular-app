@@ -71,13 +71,11 @@ export abstract class ListViewComponent<T> implements OnInit {
       });
   }
 
-  editResource(action: any, component: ComponentType<any>, event: Event): void {
-    event.stopPropagation();
+  editResource(action: any, component: ComponentType<any>): void {
     this.getResource(action, component);
   }
 
-  deleteResource(action: any, event: Event): void {
-    event.stopPropagation();
+  deleteResource(action: any): void {
     this.confirm(() => {
       this.store.dispatch(action)
         .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {

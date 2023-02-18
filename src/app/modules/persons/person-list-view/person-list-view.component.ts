@@ -32,12 +32,12 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
     this.getResource(new GetPerson(id), PersonDetailsComponent);
   }
 
-  editPerson(id: number, event: Event): void {
-    this.editResource(new GetPerson(id), PersonDetailsComponent, event);
+  editPerson(id: number): void {
+    this.editResource(new GetPerson(id), PersonDetailsComponent);
   }
 
-  deletePerson(id: number, event: Event): void {
-    this.deleteResource(new DeletePerson(id), event);
+  deletePerson(id: number): void {
+    this.deleteResource(new DeletePerson(id));
   }
 
   override handleSorting(): void {

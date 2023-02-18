@@ -34,13 +34,13 @@
             <td mat-cell *matCellDef="let country" class="text-sm  cursor-pointer" (click)="getCountry(country.name)">
 
                 <div class="float-right">
-                    <button (click)="editCountry(country.name, $event);"
+                    <button appDialog (click)="editCountry(country.name);"
                         class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button">
                         <i class="fas fa-edit"></i>
                     </button>
 
-                    <button (click)="deleteCountry(country.name, $event)" *ngIf="auth.hasRoles(['manage-account', 'admin']) | async"
+                    <button appDialog (click)="deleteCountry(country.name)" *ngIf="auth.hasRoles(['manage-account', 'admin']) | async"
                         class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button">
                         <i class="fas fa-trash"></i>

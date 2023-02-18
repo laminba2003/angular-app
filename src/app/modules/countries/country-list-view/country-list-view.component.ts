@@ -32,12 +32,12 @@ export class CountryListViewComponent extends ListViewComponent<Country> impleme
     this.getResource(new GetCountry(name), CountryDetailsComponent);
   }
 
-  editCountry(name: string, event: Event): void {
-    this.editResource(new GetCountry(name), CountryDetailsComponent, event);
+  editCountry(name: string): void {
+    this.editResource(new GetCountry(name), CountryDetailsComponent);
   }
 
-  deleteCountry(name: string, event: Event): void {
-    this.deleteResource(new DeleteCountry(name), event);
+  deleteCountry(name: string): void {
+    this.deleteResource(new DeleteCountry(name));
   }
 
   override handleSearch(query: string): void {

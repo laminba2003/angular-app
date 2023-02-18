@@ -6,6 +6,7 @@ import { ComponentsModule } from '@components//components.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { NgxsModule } from '@ngxs/store';
 import { PersonState } from './person.state';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PersonState } from './person.state';
     CommonModule,
     PersonRoutingModule,
     ComponentsModule,
+    DirectivesModule,
     NgxsModule.forFeature([PersonState])
   ]
 })
