@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
@@ -11,7 +11,11 @@ export class AuthService {
   constructor(private store: Store, private keycloakService: KeycloakService) { }
 
   hasRoles(roles: string[]): Observable<boolean> {
-    return this.store.select(state => state.appstate.roles).pipe(map(x => roles.some((role) => x.includes(role))));
+    if (roles.length == 0) {
+      return of(true);
+    } else {
+      return this.store.select(state => state.appstate.roles).pipe(map(x => roles.some((role) => x.includes(role))));
+    }
   }
 
   async isLoggedIn(): Promise<boolean> {
