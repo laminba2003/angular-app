@@ -1,5 +1,5 @@
 import { ComponentType } from "@angular/cdk/portal";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { AfterContentInit, Component, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -23,7 +23,7 @@ export class State {
 }
 
 @Component({ template: '' })
-export abstract class ListViewComponent<T> implements OnInit {
+export abstract class ListViewComponent<T> implements AfterContentInit {
 
   page: Page<T> = { content: [], totalElements: 0, number: 0, size: 5 };
   dataSource: MatTableDataSource<T> = new MatTableDataSource(this.page.content);
@@ -52,12 +52,12 @@ export abstract class ListViewComponent<T> implements OnInit {
     this.dialog = AppInjector.get(MatDialog);
     this.auth = AppInjector.get(AuthService);
     this.route = AppInjector.get(ActivatedRoute);
-  }
-
-  ngOnInit(): void {
     for (let i = 0; i < this.page.size; i++) {
       this.page.content.push({} as T);
     }
+  }
+
+  ngAfterContentInit(): void {
     this.getData();
   }
 

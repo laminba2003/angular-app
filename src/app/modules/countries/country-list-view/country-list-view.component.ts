@@ -16,8 +16,7 @@ export class CountryListViewComponent extends ListViewComponent<Country> impleme
       () => { return this.getCountries() }, ['name', 'capital', 'population', 'actions']);
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit();
+  ngOnInit(): void {
     const name = this.getParam('name');
     if (name) {
       this.getCountry(name);

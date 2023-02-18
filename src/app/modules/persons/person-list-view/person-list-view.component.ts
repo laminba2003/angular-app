@@ -16,8 +16,7 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
       () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit();
+  ngOnInit(): void {
     const id = Number(this.getParam('id'));
     if (id) {
       this.getPerson(id);
