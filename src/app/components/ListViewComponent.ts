@@ -6,7 +6,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { Observable, withLatestFrom } from "rxjs";
+import { Observable, of, withLatestFrom } from "rxjs";
 import { AppInjector } from "@app/app.injector";
 import { DoSearch, SetSearch } from "@app/app.state";
 import { Page } from "@app/model/page";
@@ -36,6 +36,7 @@ export abstract class ListViewComponent<T> implements OnInit {
   protected store: Store;
   auth: AuthService;
   protected route: ActivatedRoute;
+  isLoading$: Observable<boolean> = of(true);
 
   constructor(private state: State, private getData: Function, displayedColumns: Array<string>) {
     this.store = AppInjector.get(Store);
@@ -54,10 +55,14 @@ export abstract class ListViewComponent<T> implements OnInit {
   }
 
   ngOnInit(): void {
+    for (let i = 0; i < this.page.size; i++) {
+      this.page.content.push({} as T);
+    }
     this.getData();
   }
 
   getResources(action: any, callback?: Function): void {
+    this.isLoading$ = this.store.select(state => state.appstate.isLoading);
     this.store.dispatch(action)
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.update(page);
@@ -66,6 +71,7 @@ export abstract class ListViewComponent<T> implements OnInit {
   }
 
   getResource(action: any, component: ComponentType<any>, callback?: Function): void {
+    this.isLoading$ = of(false);
     this.store.dispatch(action)
       .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
         this.show(component, entity);
@@ -74,10 +80,12 @@ export abstract class ListViewComponent<T> implements OnInit {
   }
 
   editResource(action: any, component: ComponentType<any>, callback?: Function): void {
+    this.isLoading$ = of(false);
     this.getResource(action, component, callback);
   }
 
   deleteResource(action: any, callback?: Function): void {
+    this.isLoading$ = of(false);
     this.confirm(() => {
       this.store.dispatch(action)
         .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
@@ -88,6 +96,9 @@ export abstract class ListViewComponent<T> implements OnInit {
   }
 
   search(query: string): void {
+    this.purgeData();
+    this.refreshDataSource();
+    this.isLoading$ = this.store.select(state => state.appstate.isLoading);
     this.page.number = 0;
     if (query.trim()) {
       this.store.dispatch(new DoSearch(true, query));
@@ -100,6 +111,7 @@ export abstract class ListViewComponent<T> implements OnInit {
   abstract handleSearch(query: string): void;
 
   handlePagination(event: any): void {
+    this.isLoading$ = this.store.select(state => state.appstate.isLoading);
     this.page.number = event.pageIndex;
     this.page.size = event.pageSize;
     const isSearching = this.store.selectSnapshot(state => state.appstate.isSearching);
@@ -116,6 +128,7 @@ export abstract class ListViewComponent<T> implements OnInit {
 
   refresh(): void {
     this.page.number = 0;
+    this.purgeData();
     this.getData();
   }
 
@@ -149,6 +162,15 @@ export abstract class ListViewComponent<T> implements OnInit {
 
   protected getParam(name: string): string | null {
     return this.route.snapshot.paramMap.get(name);
+  }
+
+  private purgeData() {
+    const length = this.page.content.length;
+    this.page.content = [];
+    for (let i = 0; i < length; i++) {
+      this.page.content.push({} as T);
+    }
+    this.refreshDataSource();
   }
 
 }

@@ -3,17 +3,28 @@
 @tailwind components;
 @tailwind utilities;
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 button:focus {
     outline: NONE;
 }
 
-.mat-row:nth-child(even){
+.mat-row td > div {
+  width: 100%;
+}
+
+.mat-row:nth-child(even) {
     background-color: #fdfdfd;
 }
-        
-.mat-row:nth-child(odd){
+
+.mat-row:nth-child(even) div {
+    background-color: #fdfdfd;
+}
+
+.mat-row:nth-child(odd) {
     background-color: white;
 }
 
@@ -22,6 +33,56 @@ button:focus {
     color: white;
 }
 
-.mat-progress-spinner circle, .mat-spinner circle {
+.mat-progress-spinner circle,
+.mat-spinner circle {
     stroke: #79adc5;
+}
+
+@keyframes table-loading {
+    40% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+table .table-loading {
+    position: relative;
+    cursor: default;
+}
+
+table .table-loading td > div {
+    height: 30px;
+    width: 100%;
+    overflow: hidden;
+}
+
+table .table-loading td > div > * {
+    display: none;
+}
+
+table .table-loading:nth-of-type(even) td > div {
+    background-color: #e7e7e7; 
+}
+
+table .table-loading td:after {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 0;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 30px;
+    background-image: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.5) 60%,
+        rgba(255, 255, 255, 0) 80%
+    );
+    background-size: 200px 24px;
+    background-position: -100px 0;
+    background-repeat: no-repeat;
+    animation: table-loading 1s infinite;
 }

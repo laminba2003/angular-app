@@ -9,13 +9,14 @@ import { Observable } from 'rxjs';
 })
 export class SpinnerComponent implements OnInit {
 
-  isLoading$: Observable<boolean>;
-  
-  constructor(private store: Store) { 
-    this.isLoading$ = this.store.select(state => state.appstate.isLoading);
+  constructor(private store: Store) {     
   }
 
   ngOnInit(): void {
   }
 
+  get isLoading$(): Observable<boolean> {
+    return this.store.select(state => state.appstate.isLoading);
+  }
+  
 }
