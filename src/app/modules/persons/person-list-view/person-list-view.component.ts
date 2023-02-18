@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Person } from './../../../model/person';
+import { Person } from '@app/model/person';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
-import { ListViewComponent, State } from '../../../components/ListViewComponent';
+import { ListViewComponent, State } from '@components/ListViewComponent';
 
 @Component({
   selector: 'app-person-list-view',

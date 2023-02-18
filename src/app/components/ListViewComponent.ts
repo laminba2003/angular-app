@@ -7,10 +7,10 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { Observable, withLatestFrom } from "rxjs";
-import { AppInjector } from "../app.injector";
-import { DoSearch, SetSearch } from "../app.state";
-import { Page } from "../model/page";
-import { AuthService } from "../services/auth.service";
+import { AppInjector } from "@app/app.injector";
+import { DoSearch, SetSearch } from "@app/app.state";
+import { Page } from "@app/model/page";
+import { AuthService } from "@app/services/auth.service";
 import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
 
 export class State {

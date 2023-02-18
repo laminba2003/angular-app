@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
 import { tap } from "rxjs";
-import { Page } from "../../model/page";
-import { Person } from "../../model/person";
+import { Page } from "@app/model/page";
+import { Person } from "@app/model/person";
 import { PersonService } from './person-service';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './person.actions';
 

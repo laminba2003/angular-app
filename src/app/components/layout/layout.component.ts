@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from './../services/auth.service';
+import { AuthService } from '@app/services/auth.service';
 import { Store } from '@ngxs/store';
 import { MENU } from './navigation';
 

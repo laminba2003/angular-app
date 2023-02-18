@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
 import { tap } from "rxjs";
-import { Page } from "../../model/page";
-import { Country } from "../../model/country";
+import { Page } from "@app/model/page";
+import { Country } from "@app/model/country";
 import { CountryService } from './country-service';
 import { DeleteCountry, GetCountry, GetCountries, SearchCountries } from './country.actions';
 

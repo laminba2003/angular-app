@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CountryListViewComponent } from '../country-list-view/country-list-view.component';
-import { Country } from './../../../model/country';
+import { Country } from '@app/model/country';
 
 @Component({
   selector: 'app-country-details',

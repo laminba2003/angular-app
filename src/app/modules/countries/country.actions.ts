@@ -1,4 +1,4 @@
-import { Country } from '../../model/country';
+import { Country } from '@app/model/country';
 
 export class GetCountries {
     static readonly type = '[Countries] Fetch';
