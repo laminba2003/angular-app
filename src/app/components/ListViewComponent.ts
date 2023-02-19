@@ -1,16 +1,16 @@
 import { ComponentType } from "@angular/cdk/portal";
-import { AfterContentInit, Component, ViewChild } from "@angular/core";
+import { AfterContentInit, Component, EnvironmentInjector, inject, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Store } from "@ngxs/store";
-import { Observable, of, withLatestFrom } from "rxjs";
-import { AppInjector } from "@app/app.injector";
+import { EMPTY, Observable, of, withLatestFrom } from "rxjs";
 import { DoSearch, SetSearch } from "@app/app.state";
 import { Page } from "@app/model/page";
 import { AuthService } from "@app/services/auth.service";
 import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
+import { ActivatedRoute } from '@angular/router';
 
 export class State {
   page: (state: any) => any;
@@ -33,12 +33,15 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   @ViewChild(MatSort) sort: MatSort;
   private dialog: MatDialog;
   protected store: Store;
+  protected route: ActivatedRoute;
   auth: AuthService;
   isLoading$: Observable<boolean> = of(true);
   selected: T = {} as T;
 
   constructor(private state: State, private getData: Function, displayedColumns: Array<string>) {
-    this.store = AppInjector.get(Store);
+    this.route = inject(ActivatedRoute);
+    this.dialog = inject(MatDialog);
+    this.store = inject(Store);
     this.store.dispatch(new SetSearch(this.search.bind(this)));
     const initial = this.getData.bind(this);
     this.getData = () => {
@@ -48,8 +51,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
     this.pageInfo$ = this.store.select(this.state.page);
     this.entityInfo$ = this.store.select(this.state.entity);
     this.displayedColumns = displayedColumns;
-    this.dialog = AppInjector.get(MatDialog);
-    this.auth = AppInjector.get(AuthService);
+    this.auth = inject(AuthService);
     for (let i = 0; i < this.page.size; i++) {
       this.page.content.push({} as T);
     }
@@ -70,7 +72,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   }
 
   getResource(action: any, component: ComponentType<any>, callback?: Function): void {
-    if(!this.store.selectSnapshot(state => state.appstate.isLoading)) {
+    if (!this.store.selectSnapshot(state => state.appstate.isLoading)) {
       this.isLoading$ = of(false);
       this.store.dispatch(action)
         .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
@@ -162,6 +164,13 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
 
   getProperty(entity: T, k: any): any {
     return entity[k as keyof T];
+  }
+
+  getParam(name: string): Observable<any> {
+    console.log(this.route.snapshot.paramMap.keys);
+    const value = this.route.snapshot.paramMap.get(name);
+    console.log(value);
+    return value ? of(value) : EMPTY;
   }
 
   private purgeData() {
