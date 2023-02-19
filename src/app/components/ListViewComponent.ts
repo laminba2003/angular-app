@@ -35,6 +35,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   protected store: Store;
   auth: AuthService;
   isLoading$: Observable<boolean> = of(true);
+  selected: T = {} as T;
 
   constructor(private state: State, private getData: Function, displayedColumns: Array<string>) {
     this.store = AppInjector.get(Store);
@@ -60,6 +61,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
 
   getResources(action: any, callback?: Function): void {
     this.isLoading$ = this.store.select(state => state.appstate.isLoading);
+    this.selected = {} as T;
     this.store.dispatch(action)
       .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
         this.update(page);
@@ -73,6 +75,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
       this.store.dispatch(action)
         .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
           this.show(component, entity);
+          this.selected = entity;
           callback?.(entity);
         });
     }
@@ -99,6 +102,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
     this.refreshDataSource();
     this.isLoading$ = this.store.select(state => state.appstate.isLoading);
     this.page.number = 0;
+    this.selected = {} as T;
     if (query.trim()) {
       this.store.dispatch(new DoSearch(true, query));
       this.handleSearch(query);

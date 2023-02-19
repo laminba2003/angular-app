@@ -53,7 +53,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let country; columns: displayedColumns;" (click)="getCountry(country.name)"
-            [ngClass]="{'table-loading': isLoading$ | async}"></tr>
+        [ngClass]="{'table-loading': isLoading$ | async, 'highlight': selected.name && selected.name == country.name}"></tr>
         <tr class="mat-row" *matNoDataRow style="text-align:center">
             <td class="mat-cell" [attr.colspan]="displayedColumns.length">
               No records
