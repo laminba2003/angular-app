@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Person } from '@app/model/person';
+import { PersonListViewComponent } from '../person-list-view/person-list-view.component';
 
 @Component({
   selector: 'app-person-edit',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonEditComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialogRef: MatDialogRef<PersonListViewComponent>, @Inject(MAT_DIALOG_DATA) public person: Person) { }
 
   ngOnInit(): void {
+    if (this.person) {
+      window.history.replaceState({}, '', `/persons/${this.person.id}`);
+      this.dialogRef.afterClosed().subscribe(() => {
+        window.history.replaceState({}, '', `/persons`);
+      });
+    }
   }
 
 }
