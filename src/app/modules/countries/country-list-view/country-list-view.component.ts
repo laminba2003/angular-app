@@ -3,6 +3,7 @@ import { ListViewComponent, State } from '@components/ListViewComponent';
 import { Country } from '@app/model/country';
 import { CountryDetailsComponent } from '../country-details/country-details.component';
 import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../country.actions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-country-list-view',
@@ -11,13 +12,13 @@ import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../cou
 })
 export class CountryListViewComponent extends ListViewComponent<Country> implements OnInit {
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     super(new State(state => state.countrystate.page, state => state.countrystate.country),
       () => { return this.getCountries() }, ['name', 'capital', 'population', 'actions']);
   }
 
   ngOnInit(): void {
-    const name = this.getParam('name');
+    const name = this.route.snapshot.paramMap.get('name');
     if (name) {
       this.getCountry(name);
     }

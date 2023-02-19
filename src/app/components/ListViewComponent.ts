@@ -4,7 +4,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { Observable, of, withLatestFrom } from "rxjs";
 import { AppInjector } from "@app/app.injector";
@@ -35,7 +34,6 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   private dialog: MatDialog;
   protected store: Store;
   auth: AuthService;
-  protected route: ActivatedRoute;
   isLoading$: Observable<boolean> = of(true);
 
   constructor(private state: State, private getData: Function, displayedColumns: Array<string>) {
@@ -51,7 +49,6 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
     this.displayedColumns = displayedColumns;
     this.dialog = AppInjector.get(MatDialog);
     this.auth = AppInjector.get(AuthService);
-    this.route = AppInjector.get(ActivatedRoute);
     for (let i = 0; i < this.page.size; i++) {
       this.page.content.push({} as T);
     }
@@ -160,10 +157,6 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
 
   getProperty(entity: T, k: any): any {
     return entity[k as keyof T];
-  }
-
-  protected getParam(name: string): string | null {
-    return this.route.snapshot.paramMap.get(name);
   }
 
   private purgeData() {

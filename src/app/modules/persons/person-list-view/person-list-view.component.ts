@@ -3,6 +3,7 @@ import { Person } from '@app/model/person';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
 import { ListViewComponent, State } from '@components/ListViewComponent';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-person-list-view',
@@ -11,13 +12,13 @@ import { ListViewComponent, State } from '@components/ListViewComponent';
 })
 export class PersonListViewComponent extends ListViewComponent<Person> implements OnInit {
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     super(new State(state => state.personstate.page, state => state.personstate.person),
       () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
   }
 
   ngOnInit(): void {
-    const id = Number(this.getParam('id'));
+    const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.getPerson(id);
     }
