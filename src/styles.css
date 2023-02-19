@@ -12,64 +12,79 @@ button:focus {
     outline: NONE;
 }
 
-.mat-row td > div {
-  width: 100%;
+table {
+    width: 100%;
 }
 
-.mat-row:nth-child(even) {
-    background-color: #fdfdfd;
+tr {
+    font-size: 0.875rem!important;
+    cursor: pointer;
 }
 
-.mat-row:nth-child(even) div {
-    background-color: #fdfdfd;
+th {
+    background: #79adc5;
+    color: white!important;
+    font-size: 0.875rem!important;
 }
 
-.mat-row:nth-child(odd) {
+tr td > div {
+    width: 100%;
+    line-height: 30px;
+}
+
+
+tr td > div > div {
+    width: auto;
+    line-height: 21px;
+    position: relative;
+    height: 21px;
+    top: 2px;
+    float: right;
+}
+
+tr td > div > div button {
+    width : 20px;
+    height: 20px;
+    border : 1px solid #f5f5f5;
+    margin-right: 3px;
+}
+
+tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+tr:nth-child(odd) {
     background-color: white;
 }
 
-.mat-header-cell {
-    background: #79adc5;
-    color: white;
+tr td > div {
+    height: 30px;
+    overflow: hidden;
+    margin-left: 0;
+    margin-right: auto;
+    background: none;
 }
 
-.mat-progress-spinner circle,
-.mat-spinner circle {
-    stroke: #79adc5;
-}
-
-@keyframes table-loading {
-    40% {
-        background-position: 100% 0;
-    }
-    100% {
-        background-position: 100% 0;
-    }
-}
-
-table .table-loading {
+tr.table-loading {
     position: relative;
     cursor: default;
+    background-color: white!important;
 }
 
-table .table-loading td > div {
-    height: 30px;
-    width: 80%;
-    overflow: hidden;
-    margin-left:0;
-    margin-right: auto;
+tr.table-loading td > div {
     content-visibility: hidden;
+    width: 80%;
 }
 
-table .table-loading td > div > * {
-    display: none;
+tr.table-loading td > div > div {
+    display: none;;
 }
 
-table .table-loading:nth-of-type(even) td > div {
-    background-color: #e7e7e7; 
+tr.table-loading:nth-of-type(even) td > div {
+    background-color: #f5f5f5;
 }
 
-table .table-loading td:after {
+tr.table-loading td:after {
     position: absolute;
     transform: translateY(-50%);
     top: 50%;
@@ -88,4 +103,18 @@ table .table-loading td:after {
     background-position: -100px 0;
     background-repeat: no-repeat;
     animation: table-loading 1s infinite;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+    stroke: #79adc5;
+}
+
+@keyframes table-loading {
+    40% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
 }
