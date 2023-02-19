@@ -31,7 +31,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   protected pageInfo$: Observable<Page<T>>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  private dialog: MatDialog;
+  protected dialog: MatDialog;
   protected store: Store;
   protected route: ActivatedRoute;
   auth: AuthService;
@@ -167,9 +167,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   }
 
   getParam(name: string): Observable<any> {
-    console.log(this.route.snapshot.paramMap.keys);
     const value = this.route.snapshot.paramMap.get(name);
-    console.log(value);
     return value ? of(value) : EMPTY;
   }
 
