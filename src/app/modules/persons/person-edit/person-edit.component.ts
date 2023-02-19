@@ -21,4 +21,8 @@ export class PersonEditComponent implements OnInit {
     }
   }
 
+  submit(): void {
+    this.dialogRef.close();
+  }
+  
 }
