@@ -148,7 +148,8 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
 
   show(component: ComponentType<any>, data: T): void {
     this.dialog.open(component, {
-      data: data
+      data: data,
+      disableClose: true
     });
   }
 

@@ -4,6 +4,7 @@ import { PersonDetailsComponent } from '../person-details/person-details.compone
 import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
 import { ListViewComponent, State } from '@components/ListViewComponent';
 import { ActivatedRoute } from '@angular/router';
+import { PersonEditComponent } from '../person-edit/person-edit.component';
 
 @Component({
   selector: 'app-person-list-view',
@@ -33,7 +34,7 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
   }
 
   editPerson(id: number): void {
-    this.editResource(new GetPerson(id), PersonDetailsComponent);
+    this.editResource(new GetPerson(id), PersonEditComponent);
   }
 
   deletePerson(id: number): void {

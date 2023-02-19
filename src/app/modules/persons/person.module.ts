@@ -7,11 +7,13 @@ import { PersonDetailsComponent } from './person-details/person-details.componen
 import { NgxsModule } from '@ngxs/store';
 import { PersonState } from './person.state';
 import { DirectivesModule } from '@directives/directives.module';
+import { PersonEditComponent } from './person-edit/person-edit.component';
 
 @NgModule({
   declarations: [
     PersonListViewComponent,
-    PersonDetailsComponent
+    PersonDetailsComponent,
+    PersonEditComponent
   ],
   imports: [
     CommonModule,
