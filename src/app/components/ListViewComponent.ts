@@ -1,5 +1,5 @@
 import { ComponentType } from "@angular/cdk/portal";
-import { AfterContentInit, Component, EnvironmentInjector, inject, ViewChild } from "@angular/core";
+import { AfterContentInit, Component, inject, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -14,10 +14,10 @@ import { ActivatedRoute } from '@angular/router';
 
 export class State {
   page: (state: any) => any;
-  entity: (state: any) => any;
-  constructor(page: (state: any) => any, entity: (state: any) => any) {
+  resource: (state: any) => any;
+  constructor(page: (state: any) => any, resource: (state: any) => any) {
     this.page = page;
-    this.entity = entity;
+    this.resource = resource;
   }
 }
 
@@ -27,7 +27,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   page: Page<T> = { content: [], totalElements: 0, number: 0, size: 5 };
   dataSource: MatTableDataSource<T> = new MatTableDataSource(this.page.content);
   displayedColumns: string[] = [];
-  protected entityInfo$: Observable<T>;
+  protected resourceInfo$: Observable<T>;
   protected pageInfo$: Observable<Page<T>>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,7 +49,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
       initial();
     }
     this.pageInfo$ = this.store.select(this.state.page);
-    this.entityInfo$ = this.store.select(this.state.entity);
+    this.resourceInfo$ = this.store.select(this.state.resource);
     this.displayedColumns = displayedColumns;
     this.auth = inject(AuthService);
     for (let i = 0; i < this.page.size; i++) {
@@ -75,17 +75,44 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
     if (!this.store.selectSnapshot(state => state.appstate.isLoading)) {
       this.isLoading$ = of(false);
       this.store.dispatch(action)
-        .pipe(withLatestFrom(this.entityInfo$)).subscribe(([_, entity]) => {
-          this.show(component, entity);
-          this.selected = entity;
-          callback?.(entity);
+        .pipe(withLatestFrom(this.resourceInfo$)).subscribe(([_, resource]) => {
+          this.selected = resource;
+          this.show(component, resource);
+          callback?.(resource);
         });
     }
   }
 
+  createResource(component: ComponentType<any>, callback?: Function): void {
+    this.isLoading$ = of(false);
+    this.selected = {} as T;
+    const post = (resource : T) => {
+      const action = callback?.(resource);
+      this.store.dispatch(action)
+        .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+          this.selected = page.content[0];
+          this.page = page;
+          this.refreshDataSource();
+        });
+    };  
+    this.show(component, { callback: post, resource: {} as T });
+  }
+
   editResource(action: any, component: ComponentType<any>, callback?: Function): void {
     this.isLoading$ = of(false);
-    this.getResource(action, component, callback);
+    this.store.dispatch(action)
+        .pipe(withLatestFrom(this.resourceInfo$)).subscribe(([_, resource]) => {
+          this.selected = resource;
+          const put = (resource : T) => {
+            const action = callback?.(resource);
+            this.store.dispatch(action)
+              .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+                this.page = page;
+                this.refreshDataSource();
+              });
+          };
+          this.show(component, { callback: put, resource: resource });
+        });
   }
 
   deleteResource(action: any, callback?: Function): void {
@@ -143,12 +170,12 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   }
 
   handleSorting(): void {
-    this.dataSource.sortingDataAccessor = (entity, property) => {
-      return this.getProperty(entity, property as keyof T);
+    this.dataSource.sortingDataAccessor = (resource, property) => {
+      return this.getProperty(resource, property as keyof T);
     };
   }
 
-  show(component: ComponentType<any>, data: T): void {
+  show(component: ComponentType<any>, data: any): void {
     this.dialog.open(component, {
       data: data,
       disableClose: true
@@ -162,8 +189,13 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
     });
   }
 
-  getProperty(entity: T, k: any): any {
-    return entity[k as keyof T];
+  getProperty(resource: T, k: any): any {
+    const array = String(k).split(".");
+    if(array.length == 2) {
+      const object = this.getProperty(resource, array[0]);
+      return this.getProperty(object, array[1]); 
+    } 
+    return resource[k as keyof T];
   }
 
   getParam(name: string): Observable<any> {

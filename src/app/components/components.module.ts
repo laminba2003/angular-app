@@ -8,6 +8,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatPaginatorModule,
     MatSortModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule, 
+    ReactiveFormsModule
+
   ],
   exports:[
     HeaderComponent,
@@ -31,7 +35,9 @@ import {MatIconModule} from '@angular/material/icon';
     MatPaginatorModule,
     MatSortModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule, 
+    ReactiveFormsModule
   ]
 })
 export class ComponentsModule { }

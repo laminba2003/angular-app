@@ -21,6 +21,14 @@ export class PersonService {
     return this.httpClient.get<Person>(this.backendUrl + "/" + id);
   }
 
+  createPerson(person: Person): Observable<Person> {
+    return this.httpClient.post<Person>(this.backendUrl, person);
+  }
+
+  updatePerson(id: number, person: Person): Observable<Person> {
+    return this.httpClient.put<Person>(this.backendUrl + "/" + id, person);
+  }
+
   deletePerson(id: number): Observable<any> {
     return this.httpClient.delete(this.backendUrl + "/" + id);
   }

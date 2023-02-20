@@ -10,14 +10,14 @@ export class GetPerson {
     constructor(public id : number) { }
 }
 
-export class AddPerson {
-    static readonly type = '[Person] Add';
-    constructor(public payload: Person) { }
+export class CreatePerson {
+    static readonly type = '[Person] Create';
+    constructor(public person: Person) { }
 }
 
 export class UpdatePerson {
-    static readonly type = '[Person] Update';
-    constructor(public payload: Person, public id: number) { }
+    static readonly type = '[Person] Edit';
+    constructor(public id: number, public person: Person) { }
 }
 
 export class DeletePerson {

@@ -28,7 +28,7 @@ export class CountryListViewComponent extends ListViewComponent<Country> impleme
     this.getResource(new GetCountry(name), CountryDetailsComponent);
   }
 
-  editCountry(name: string): void {
+  updateCountry(name: string): void {
     this.editResource(new GetCountry(name), CountryDetailsComponent);
   }
 

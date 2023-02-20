@@ -47,6 +47,12 @@ form button {
     margin-right: 5px;
 }
 
+form button:disabled, form button:disabled:hover{
+    background-color: #c1bcbc;
+    color: #9b9393;
+    cursor: default;
+}
+
 tr td > div {
     width: 100%;
     line-height: 30px;
@@ -107,6 +113,10 @@ tr.table-loading td > div {
 
 tr.table-loading td > div > div {
     display: none;;
+}
+
+tr.table-loading:nth-of-type(odd) td > div {
+    background-color: #fcf0f0;
 }
 
 tr.table-loading:nth-of-type(even) td > div {

@@ -1,7 +1,7 @@
 <app-header title="Persons" [template]="buttons"></app-header>
 
 <ng-template #buttons>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="createPerson()">
         <mat-icon>person_add</mat-icon>
     </button>
     <button mat-icon-button (click)="refresh()">
@@ -32,7 +32,7 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="country">
+        <ng-container matColumnDef="country.name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
             <td mat-cell *matCellDef="let person">
                 <div>{{person.country?.name}}</div>
@@ -44,7 +44,7 @@
             <td mat-cell *matCellDef="let person">
                 <div>
                     <div *ngIf="person.id">
-                        <button appDialog (click)="editPerson(person.id);"
+                        <button appDialog (click)="updatePerson(person.id);"
                             type="button">
                             <i class="fas fa-edit"></i>
                         </button>

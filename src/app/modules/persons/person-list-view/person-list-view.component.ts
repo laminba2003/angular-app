@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from '@app/model/person';
 import { PersonDetailsComponent } from '../person-details/person-details.component';
-import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './../person.actions';
+import { CreatePerson, DeletePerson, GetPerson, GetPersons, SearchPersons, UpdatePerson } from './../person.actions';
 import { ListViewComponent, State } from '@components/ListViewComponent';
 import { PersonEditComponent } from '../person-edit/person-edit.component';
 
@@ -14,7 +14,7 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
 
   constructor() {
     super(new State(state => state.personstate.page, state => state.personstate.person),
-      () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
+      () => { return this.getPersons() }, ['id', 'firstName', 'lastName', 'country.name', 'actions']);
   }
 
   ngOnInit(): void {
@@ -29,18 +29,16 @@ export class PersonListViewComponent extends ListViewComponent<Person> implement
     this.getResource(new GetPerson(id), PersonDetailsComponent);
   }
 
-  editPerson(id: number): void {
-    this.editResource(new GetPerson(id), PersonEditComponent);
+  createPerson(): void {
+    this.createResource(PersonEditComponent, (person: Person) => new CreatePerson(person));
+  }
+
+  updatePerson(id: number): void {
+    this.editResource(new GetPerson(id), PersonEditComponent, (person: Person) => new UpdatePerson(id, person));
   }
 
   deletePerson(id: number): void {
     this.deleteResource(new DeletePerson(id));
-  }
-
-  override handleSorting(): void {
-    this.dataSource.sortingDataAccessor = (person, property) => {
-      return property == 'country' ? person.country.name : this.getProperty(person, property);
-    };
   }
 
   override handleSearch(query: string): void {

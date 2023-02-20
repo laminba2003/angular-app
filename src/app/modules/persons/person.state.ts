@@ -4,7 +4,7 @@ import { tap } from "rxjs";
 import { Page } from "@app/model/page";
 import { Person } from "@app/model/person";
 import { PersonService } from './person-service';
-import { DeletePerson, GetPerson, GetPersons, SearchPersons } from './person.actions';
+import { CreatePerson, DeletePerson, GetPerson, GetPersons, SearchPersons, UpdatePerson } from './person.actions';
 
 export class PersonStateModel {
     page: Page<Person>;
@@ -35,6 +35,35 @@ export class PersonState {
     getPerson(ctx: StateContext<PersonStateModel>, { id }: GetPerson) {
         return this.personService.getPerson(id).pipe(tap(person => {
             ctx.patchState({
+                person: person
+            });
+        }))
+    }
+
+    @Action(CreatePerson)
+    createPerson(ctx: StateContext<PersonStateModel>, { person }: CreatePerson) {
+        return this.personService.createPerson(person).pipe(tap(person => {
+            const state = ctx.getState();
+            const page = state.page;
+            page.content.unshift(person);
+            page.content = page.content.slice(0, page.size);
+            page.totalElements++;
+            ctx.patchState({
+                page: page,
+                person: person
+            });
+        }))
+    }
+
+    @Action(UpdatePerson)
+    editPerson(ctx: StateContext<PersonStateModel>, { id, person }: UpdatePerson) {
+        return this.personService.updatePerson(id, person).pipe(tap(person => {
+            const state = ctx.getState();
+            const page = state.page;
+            const index = page.content.findIndex(person => person.id === id);
+            page.content[index] = person;
+            ctx.patchState({
+                page: page,
                 person: person
             });
         }))

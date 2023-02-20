@@ -37,7 +37,7 @@
             <td mat-cell *matCellDef="let country">
                 <div>
                     <div class="float-right" *ngIf="country.name">
-                        <button appDialog (click)="editCountry(country.name);"
+                        <button appDialog (click)="updateCountry(country.name);"
                             type="button">
                             <i class="fas fa-edit"></i>
                         </button>
