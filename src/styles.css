@@ -41,6 +41,11 @@ form input:focus,  form input:focus-visible{
     outline-color: #027bdb!important;
 }
 
+form input.ng-dirty.ng-invalid {
+    border: 1px solid red!important;
+    outline-color: red!important;
+}
+
 form button {
     height: 37px;
     line-height: 37px;
@@ -51,6 +56,11 @@ form button:disabled, form button:disabled:hover{
     background-color: #c1bcbc;
     color: #9b9393;
     cursor: default;
+}
+
+form label.required:after {
+    content:" *";
+    color: red;
 }
 
 tr td > div {
