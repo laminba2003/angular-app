@@ -38,6 +38,7 @@ export class PersonEditComponent implements OnInit {
     const person = this.data.resource;
     if (person.id) {
       window.history.replaceState({}, '', `/persons/${person.id}`);
+      this.countries.push(person.country);
     } else {
       window.history.replaceState({}, '', `/persons`)
     }
