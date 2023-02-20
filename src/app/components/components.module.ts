@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -24,8 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule,
     MatIconModule,
     FormsModule, 
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ],
   exports:[
     HeaderComponent,
@@ -37,7 +38,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule,
     MatIconModule,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ]
 })
 export class ComponentsModule { }

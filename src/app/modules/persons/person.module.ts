@@ -8,6 +8,7 @@ import { NgxsModule } from '@ngxs/store';
 import { PersonState } from './person.state';
 import { DirectivesModule } from '@directives/directives.module';
 import { PersonEditComponent } from './person-edit/person-edit.component';
+import { CountryState } from '../countries/country.state';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { PersonEditComponent } from './person-edit/person-edit.component';
     PersonRoutingModule,
     ComponentsModule,
     DirectivesModule,
-    NgxsModule.forFeature([PersonState])
+    NgxsModule.forFeature([PersonState, CountryState])
   ]
 })
 export class PersonModule { }
