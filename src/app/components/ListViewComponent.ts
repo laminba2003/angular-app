@@ -146,6 +146,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
     this.isLoading$ = this.store.select(state => state.appstate.isLoading);
     this.page.number = event.pageIndex;
     this.page.size = event.pageSize;
+    this.purgeData();
     const isSearching = this.store.selectSnapshot(state => state.appstate.isSearching);
     const searchQuery = this.store.selectSnapshot(state => state.appstate.searchQuery);
     isSearching ? this.handleSearch(searchQuery) : this.getData();
@@ -204,7 +205,7 @@ export abstract class ListViewComponent<T> implements AfterContentInit {
   }
 
   private purgeData() {
-    const length = this.page.content.length;
+    const length = this.page.content.length < this.page.size ? this.page.size : this.page.content.length;
     this.page.content = [];
     for (let i = 0; i < length; i++) {
       this.page.content.push({} as T);
