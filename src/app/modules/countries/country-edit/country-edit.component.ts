@@ -12,7 +12,6 @@ import { Store } from '@ngxs/store';
 })
 export class CountryEditComponent implements OnInit {
 
-  
   form: FormGroup;
   
   constructor(private dialogRef: MatDialogRef<PersonListViewComponent>, private fb: FormBuilder,

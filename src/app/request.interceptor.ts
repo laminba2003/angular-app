@@ -28,7 +28,10 @@ export class RequestInterceptor implements HttpInterceptor {
         if (requestError.status == 401) {
           document.location.href = '';
           return of(requestError.message);
-        } else if (requestError.status == 404) {
+        } else if (requestError.status == 403) {
+          this.displayMessage('Forbidden Request!', "you are not allowed to perform this action");
+        }
+        else if (requestError.status == 404) {
           this.displayMessage('Bad Request!', "entity not found");
         } else if (requestError.status == 500) {
           this.displayMessage('Server error!', "cannot fulfill the request");

@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,7 +13,6 @@ import { NgxsModule } from '@ngxs/store';
 import { AppState } from './app.state';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { setAppInjector } from './app.injector';
 import { SpinnerComponent } from '@components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -64,7 +63,5 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 })
 
 export class AppModule {
-  constructor(injector: Injector) {
-    setAppInjector(injector);
-  }
+  constructor() {}
 }
