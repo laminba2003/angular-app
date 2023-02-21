@@ -7,11 +7,13 @@ import { ComponentsModule } from '@components/components.module';
 import { NgxsModule } from '@ngxs/store';
 import { CountryState } from './country.state';
 import { DirectivesModule } from '@directives/directives.module';
+import { CountryEditComponent } from './country-edit/country-edit.component';
 
 @NgModule({
   declarations: [
     CountryListViewComponent,
-    CountryDetailsComponent
+    CountryDetailsComponent,
+    CountryEditComponent
   ],
   imports: [
   CommonModule,

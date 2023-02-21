@@ -1,7 +1,7 @@
 <app-header title="Countries" [template]="buttons"></app-header>
 
 <ng-template #buttons>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="createCountry()">
         <mat-icon>person_add</mat-icon>
     </button>
     <button mat-icon-button (click)="refresh()">

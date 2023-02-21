@@ -4,7 +4,7 @@ import { tap } from "rxjs";
 import { Page } from "@app/model/page";
 import { Country } from "@app/model/country";
 import { CountryService } from './country-service';
-import { DeleteCountry, GetCountry, GetCountries, SearchCountries } from './country.actions';
+import { DeleteCountry, GetCountry, GetCountries, SearchCountries, UpdateCountry, CreateCountry } from './country.actions';
 
 export class CountryStateModel {
     page: Page<Country>;
@@ -39,6 +39,36 @@ export class CountryState {
             });
         }))
     }
+
+    @Action(CreateCountry)
+    createCountry(ctx: StateContext<CountryStateModel>, { country }: CreateCountry) {
+        return this.countryService.createCountry(country).pipe(tap(country => {
+            const state = ctx.getState();
+            const page = state.page;
+            page.content.unshift(country);
+            page.content = page.content.slice(0, page.size);
+            page.totalElements++;
+            ctx.patchState({
+                page: page,
+                country: country
+            });
+        }))
+    }
+
+    @Action(UpdateCountry)
+    updateCountry(ctx: StateContext<CountryStateModel>, { name, country }: UpdateCountry) {
+        return this.countryService.updateCountry(name, country).pipe(tap(country => {
+            const state = ctx.getState();
+            const page = state.page;
+            const index = page.content.findIndex(country => country.name === name);
+            page.content[index] = country;
+            ctx.patchState({
+                page: page,
+                country: country
+            });
+        }))
+    }
+
 
     @Action(DeleteCountry)
     deleteCountry(ctx: StateContext<CountryStateModel>, { name }: DeleteCountry) {

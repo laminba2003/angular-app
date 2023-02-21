@@ -21,6 +21,14 @@ export class CountryService {
     return this.httpClient.get<Country>(this.backendUrl + "/" + name);
   }
 
+  createCountry(country: Country): Observable<Country> {
+    return this.httpClient.post<Country>(this.backendUrl, country);
+  }
+
+  updateCountry(name: string, country: Country): Observable<Country> {
+    return this.httpClient.put<Country>(this.backendUrl + "/" + name, country);
+  }
+  
   deleteCountry(name: string): Observable<any> {
     return this.httpClient.delete(this.backendUrl + "/" + name);
   }

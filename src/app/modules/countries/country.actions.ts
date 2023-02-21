@@ -10,14 +10,14 @@ export class GetCountry {
     constructor(public name : string) { }
 }
 
-export class AddCountry {
-    static readonly type = '[Country] Add';
-    constructor(public payload: Country) { }
+export class CreateCountry {
+    static readonly type = '[Country] Create';
+    constructor(public country: Country) { }
 }
 
 export class UpdateCountry {
-    static readonly type = '[Country] Update';
-    constructor(public payload: Country, public id: number) { }
+    static readonly type = '[Country] Edit';
+    constructor(public name: string, public country: Country) { }
 }
 
 export class DeleteCountry {

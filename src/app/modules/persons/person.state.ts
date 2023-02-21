@@ -56,7 +56,7 @@ export class PersonState {
     }
 
     @Action(UpdatePerson)
-    editPerson(ctx: StateContext<PersonStateModel>, { id, person }: UpdatePerson) {
+    updatePerson(ctx: StateContext<PersonStateModel>, { id, person }: UpdatePerson) {
         return this.personService.updatePerson(id, person).pipe(tap(person => {
             const state = ctx.getState();
             const page = state.page;

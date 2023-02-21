@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ListViewComponent, State } from '@components/ListViewComponent';
 import { Country } from '@app/model/country';
 import { CountryDetailsComponent } from '../country-details/country-details.component';
-import { GetCountries, GetCountry, DeleteCountry, SearchCountries } from '../country.actions';
+import { GetCountries, GetCountry, DeleteCountry, SearchCountries, CreateCountry, UpdateCountry } from '../country.actions';
+import { CountryEditComponent } from '../country-edit/country-edit.component';
 
 @Component({
   selector: 'app-country-list-view',
@@ -28,8 +29,12 @@ export class CountryListViewComponent extends ListViewComponent<Country> impleme
     this.getResource(new GetCountry(name), CountryDetailsComponent);
   }
 
+  createCountry(): void {
+    this.createResource(CountryEditComponent, (country: Country) => new CreateCountry(country));
+  }
+
   updateCountry(name: string): void {
-    this.editResource(new GetCountry(name), CountryDetailsComponent);
+    this.editResource(new GetCountry(name), CountryEditComponent, (country: Country) => new UpdateCountry(name, country));
   }
 
   deleteCountry(name: string): void {
