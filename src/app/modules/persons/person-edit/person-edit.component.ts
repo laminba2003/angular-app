@@ -4,10 +4,9 @@ import { Country } from '@app/model/country';
 import { Person } from '@app/model/person';
 import { PersonListViewComponent } from '../person-list-view/person-list-view.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable, withLatestFrom } from 'rxjs';
+import { withLatestFrom } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { SearchCountries } from '@app/modules/countries/country.actions';
-import { Page } from '@app/model/page';
 
 @Component({
   selector: 'app-person-edit',
@@ -16,22 +15,16 @@ import { Page } from '@app/model/page';
 })
 export class PersonEditComponent implements OnInit {
 
-  personForm: FormGroup;
-  pageInfo$: Observable<Page<Country>>;
+  form: FormGroup;
   countries: Country[] = [];
 
   constructor(private dialogRef: MatDialogRef<PersonListViewComponent>, private fb: FormBuilder,
-    private store: Store,
-    @Inject(MAT_DIALOG_DATA) private data: any) {
-    this.personForm = this.fb.group({
+    private store: Store, @Inject(MAT_DIALOG_DATA) private data: any) {
+    this.form = this.fb.group({
       firstName: [data.resource.firstName, Validators.required],
       lastName: [data.resource.lastName, Validators.required],
       country: [data.resource.country?.name, Validators.required]
     });
-    this.pageInfo$ = this.store.select(state => state.countrystate.page);
-    this.personForm.get("country")?.valueChanges.subscribe(value => {
-      console.log(value);
-   })
   }
 
   ngOnInit(): void {
@@ -48,26 +41,29 @@ export class PersonEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const value = this.personForm.controls["country"].value;
-    if(!this.countries.find(country => country.name == value)) {
-      this.personForm.patchValue({country: ""});
-      return;
+    if (!this.countries.find(country => country.name == this.form.controls["country"].value)) {
+      return this.form.patchValue({ country: "" });
     }
-    const person = new Person();
-    person.firstName = this.personForm.value.firstName;
-    person.lastName = this.personForm.value.lastName;
-    const country = new Country();
-    country.name = this.personForm.value.country;
-    person.country = country;
-    this.data.callback(person);
+    this.data.callback(this.getData());
     this.dialogRef.close();
   }
 
   searchCountry(name: any): void {
+    const pageInfo$ = this.store.select(state => state.countrystate.page);
     this.store.dispatch(new SearchCountries(name, 0, 5))
-      .pipe(withLatestFrom(this.pageInfo$)).subscribe(([_, page]) => {
+      .pipe(withLatestFrom(pageInfo$)).subscribe(([_, page]) => {
         this.countries = page.content;
       });
+  }
+
+  private getData(): Person {
+    const person = new Person();
+    person.firstName = this.form.value.firstName;
+    person.lastName = this.form.value.lastName;
+    const country = new Country();
+    country.name = this.form.value.country;
+    person.country = country;
+    return person;
   }
 
 }
