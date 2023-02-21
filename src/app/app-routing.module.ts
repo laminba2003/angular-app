@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '@components/home/home.component';
 import { AuthGuard } from './guard/auth.guard';
-import { LayoutComponent } from '@components/layout/layout.component';
+import { AdminComponent } from '@app/components/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -10,12 +10,12 @@ const routes: Routes = [
   },
   {
     path: 'countries',
-    component: LayoutComponent,
+    component: AdminComponent,
     loadChildren: () => import('./modules/countries/country.module').then(m => m.CountryModule), canActivate: [AuthGuard]
   },
   {
     path: 'persons', 
-    component: LayoutComponent,
+    component: AdminComponent,
     loadChildren: () => import('./modules/persons/person.module').then(m => m.PersonModule), canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }

@@ -4,11 +4,11 @@ import { Store } from '@ngxs/store';
 import { MENU } from './navigation';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.css']
+  selector: 'app-admin',
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.css']
 })
-export class LayoutComponent {
+export class AdminComponent {
 
   readonly menu = MENU;
 

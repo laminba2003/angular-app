@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from '@components/home/home.component';
 import { initializeKeycloak } from './init/keycloak-init.factory';
 import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
-import { LayoutComponent } from './components/layout/layout.component';
+import { AdminComponent } from './components/admin/admin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './request.interceptor';
@@ -27,7 +27,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   declarations: [
     AppComponent,
     HomeComponent,
-    LayoutComponent,
+    AdminComponent,
     SpinnerComponent
   ],
   imports: [
