@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CountryListViewComponent } from '../country-list-view/country-list-view.component';
 import { Country } from '@app/model/country';
 
 @Component({
@@ -10,7 +9,7 @@ import { Country } from '@app/model/country';
 })
 export class CountryDetailsComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<CountryListViewComponent>, @Inject(MAT_DIALOG_DATA) public country: Country) {
+  constructor(private dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) public country: Country) {
 
   }
 

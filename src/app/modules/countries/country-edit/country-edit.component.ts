@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Country } from '@app/model/country';
-import { PersonListViewComponent } from '@app/modules/persons/person-list-view/person-list-view.component';
 import { Store } from '@ngxs/store';
 
 @Component({
@@ -14,7 +13,7 @@ export class CountryEditComponent implements OnInit {
 
   form: FormGroup;
   
-  constructor(private dialogRef: MatDialogRef<PersonListViewComponent>, private fb: FormBuilder,
+  constructor(private dialogRef: MatDialogRef<any>, private fb: FormBuilder,
     private store: Store, @Inject(MAT_DIALOG_DATA) private data: any) {
     this.form = this.fb.group({
       name: [data.resource.name, Validators.required],
